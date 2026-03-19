@@ -33,6 +33,7 @@
     <li><a href="#videos">Videos</a></li>
     <li><a href="#try">Try It</a></li>
     <li><a href="#about">About</a></li>
+    <li><a href="#feedback">Feedback</a></li>
     <li><a href="https://claude.ai" target="_blank" rel="noopener" class="nav-cta">Open Claude →</a></li>
   </ul>
 </nav>
@@ -233,37 +234,40 @@
     -->
     <div class="about-avatar" aria-hidden="true">M</div>
     <div>
-      <div class="about-label">About Mindy</div>
-      <h2 class="about-title">I build AI systems<br>for Fortune 500 companies.<br><em>And then explain them to my mom.</em></h2>
-      <p class="about-text">I'm a technology consultant in New York City. My day job is implementing AI systems for large media companies — things like contract intelligence platforms, automated reporting, and GenAI pipelines.</p>
-      <p class="about-text">But when I go home for the holidays, the questions sound different. "Is it safe?" "What do I actually type?" "Will it replace my job?" This site is my attempt to answer those questions honestly.</p>
-      <div class="about-creds">
-        <div class="cred"><span class="cred-dot" aria-hidden="true"></span>AI consultant at Qvest.US, embedded at Fortune 500 media companies</div>
-        <div class="cred"><span class="cred-dot" aria-hidden="true"></span>CS &amp; Data Science, NYU — minor in Business of Entertainment &amp; Media</div>
-        <div class="cred"><span class="cred-dot" aria-hidden="true"></span>Building &amp; using AI tools since before they were cool (or scary)</div>
-      </div>
+      <div class="about-label">About</div>
+      <h2 class="about-title">Hi, I'm Mindy.</h2>
+      <p class="about-text">CS &amp; Data Science major from NYU. Now I work in consulting — and my parents always ask me about AI and whether it's going to take their jobs.</p>
+      <p class="about-text">So this is my answer. AI isn't here to replace us. It's here to help us do our jobs better. These tutorials are for anyone who wants to understand that firsthand.</p>
     </div>
   </div>
 </section>
 
-<!-- ===================== NEWSLETTER ===================== -->
-<section class="newsletter" id="follow">
-  <div class="newsletter-box">
-    <div class="newsletter-icon" aria-hidden="true">📬</div>
-    <h2>New video every week</h2>
-    <p>Drop your email and I'll send you each new guide as it comes out. No spam, no jargon — just useful stuff.</p>
-    <form class="email-form" id="email-form" novalidate>
-      <input
-        type="email"
-        class="email-input"
-        id="email-input"
-        placeholder="your@email.com"
-        autocomplete="email"
-        aria-label="Your email address">
-      <button type="submit" class="email-submit" id="email-submit">Notify me</button>
+<!-- ===================== FEEDBACK ===================== -->
+<section class="feedback-section" id="feedback">
+  <div class="feedback-box">
+    <div class="feedback-icon" aria-hidden="true">💬</div>
+    <h2>Got a question or idea?</h2>
+    <p>Drop it here — no email needed. What would you want to see next, or what are you still confused about?</p>
+    <form class="feedback-form" id="feedback-form" novalidate>
+      <textarea
+        class="feedback-input"
+        id="feedback-input"
+        placeholder="I'd love to see a video about... / I'm still confused about..."
+        rows="4"
+        aria-label="Your question or feedback"></textarea>
+      <button type="submit" class="feedback-submit" id="feedback-submit">Send it →</button>
     </form>
+    <p class="feedback-thanks" id="feedback-thanks" aria-live="polite"></p>
   </div>
 </section>
+
+<!-- ===================== CLAUDE CHAT FLOAT ===================== -->
+<button class="claude-float" id="claude-float-btn" aria-label="Chat with Claude while you watch">
+  <span class="claude-float-icon" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </span>
+  <span class="claude-float-label">Chat with Claude</span>
+</button>
 
 <!-- ===================== FOOTER ===================== -->
 <footer>

@@ -2,38 +2,45 @@
    MINDY'S AI GUIDE — Main JavaScript
    ============================================ */
 
-/* === EMAIL FORM === */
-function initEmailForm() {
-  const form = document.getElementById('email-form');
-  const input = document.getElementById('email-input');
-  const btn = document.getElementById('email-submit');
+/* === FEEDBACK FORM === */
+function initFeedbackForm() {
+  const form = document.getElementById('feedback-form');
+  const input = document.getElementById('feedback-input');
+  const btn = document.getElementById('feedback-submit');
+  const thanks = document.getElementById('feedback-thanks');
 
   if (!form) return;
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    const email = input.value.trim();
+    const text = input.value.trim();
+    if (!text) { input.focus(); return; }
 
-    if (!email || !email.includes('@')) {
-      input.style.borderColor = '#C85F3A';
-      input.focus();
-      return;
-    }
+    // TODO: wire up to a backend (Formspree, Netlify Forms, etc.)
+    // e.g. fetch('https://formspree.io/f/YOUR_ID', { method: 'POST', body: new FormData(form) })
 
-    // TODO: Replace this with your Beehiiv / Mailchimp API call
-    // Example Mailchimp endpoint:
-    // fetch('https://your-mc-endpoint.us1.list-manage.com/subscribe/post', { ... })
-
-    btn.textContent = 'You\'re in! ✓';
-    btn.style.background = '#4A7C59';
+    btn.textContent = 'Sent ✓';
     btn.disabled = true;
     input.value = '';
-    input.style.borderColor = '';
+    thanks.textContent = 'Thanks! I read every message.';
   });
+}
 
-  // Clear error state on input
-  input.addEventListener('input', function () {
-    input.style.borderColor = '';
+/* === CLAUDE FLOAT BUTTON === */
+function initClaudeFloat() {
+  const btn = document.getElementById('claude-float-btn');
+  if (!btn) return;
+
+  btn.addEventListener('click', function () {
+    // Open claude.ai in a window positioned to the right half of the screen
+    const w = Math.floor(window.screen.width * 0.45);
+    const h = window.screen.height;
+    const left = window.screen.width - w;
+    window.open(
+      'https://claude.ai',
+      'claude-chat',
+      `width=${w},height=${h},left=${left},top=0,resizable=yes,scrollbars=yes`
+    );
   });
 }
 
@@ -95,7 +102,8 @@ function initVideoCards() {
 
 /* === INIT ALL === */
 document.addEventListener('DOMContentLoaded', function () {
-  initEmailForm();
+  initFeedbackForm();
+  initClaudeFloat();
   initActiveNav();
   initVideoCards();
 });
