@@ -449,6 +449,24 @@
       line-height: 1.5;
     }
 
+    /* ── OTHER INPUT ── */
+    .other-input {
+      display: none;
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px 16px;
+      border: 1.5px solid var(--clay);
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--warm-white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .other-input.visible { display: block; }
+    .other-input::placeholder { color: var(--ink-muted); }
+
     /* ── DIVIDER ── */
     .divider { height: 1px; background: var(--border); margin: 1.75rem 0; }
 
@@ -519,7 +537,15 @@
       <button class="chip" data-v="Planning trips is stressful"  onclick="toggleChip(this)">✈️ Planning trips is stressful</button>
       <button class="chip" data-v="Writing messages takes long"  onclick="toggleChip(this)">✍️ I spend too long writing messages</button>
       <button class="chip" data-v="To-do list never ends"        onclick="toggleChip(this)">📋 My to-do list never ends</button>
+      <button class="chip chip-other" id="chip-other-btn"          onclick="toggleOther(this)">✏️ Other...</button>
     </div>
+    <input
+      type="text"
+      class="other-input"
+      id="other-input"
+      placeholder="Type what sounds like you…"
+      oninput="updateOtherVal(this.value)"
+      aria-label="Other — describe yourself">
 
     <div class="action-row">
       <button class="btn-primary" id="s2-next" onclick="goTo(3)" disabled>Continue →</button>
@@ -623,7 +649,8 @@ const state = {
   proto: null,
   votes: [0,0,0,0,0,0],
   voted: [],
-  openAns: ''
+  openAns: '',
+  otherVal: ''
 };
 
 const TOPICS = [
@@ -685,6 +712,27 @@ function toggleChip(chip) {
   state.q2 = chip.classList.contains('sel')
     ? [...new Set([...state.q2, v])]
     : state.q2.filter(x => x !== v);
+}
+
+function toggleOther(btn) {
+  const input = document.getElementById('other-input');
+  const on = btn.classList.toggle('sel');
+  input.classList.toggle('visible', on);
+  if (on) {
+    input.focus();
+    if (state.otherVal) state.q2 = [...new Set([...state.q2, state.otherVal])];
+  } else {
+    state.q2 = state.q2.filter(x => x !== state.otherVal);
+    input.value = '';
+    state.otherVal = '';
+  }
+}
+
+function updateOtherVal(v) {
+  // Remove previous other value, add new one
+  if (state.otherVal) state.q2 = state.q2.filter(x => x !== state.otherVal);
+  state.otherVal = v.trim();
+  if (state.otherVal) state.q2 = [...new Set([...state.q2, state.otherVal])];
 }
 
 /* ─── PROTO SELECT ─── */
