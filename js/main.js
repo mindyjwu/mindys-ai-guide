@@ -11,18 +11,36 @@ function initFeedbackForm() {
 
   if (!form) return;
 
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', async function (e) {
     e.preventDefault();
     const text = input.value.trim();
     if (!text) { input.focus(); return; }
 
-    // TODO: wire up to a backend (Formspree, Netlify Forms, etc.)
-    // e.g. fetch('https://formspree.io/f/YOUR_ID', { method: 'POST', body: new FormData(form) })
+    // Replace YOUR_FORM_ID with the ID from formspree.io/forms after signing up
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
 
-    btn.textContent = 'Sent ✓';
+    btn.textContent = 'Sending…';
     btn.disabled = true;
-    input.value = '';
-    thanks.textContent = 'Thanks! I read every message.';
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form),
+      });
+
+      if (res.ok) {
+        btn.textContent = 'Sent ✓';
+        input.value = '';
+        thanks.textContent = 'Thanks! I read every message.';
+      } else {
+        throw new Error('non-ok response');
+      }
+    } catch {
+      btn.textContent = 'Send it →';
+      btn.disabled = false;
+      thanks.textContent = 'Something went wrong — try again?';
+    }
   });
 }
 
@@ -57,7 +75,7 @@ function initActiveNav() {
         if (entry.isIntersecting) {
           navLinks.forEach((link) => {
             link.classList.toggle(
-              'nav-active',
+              'nav-\active',
               link.getAttribute('href') === '#' + entry.target.id
             );
           });

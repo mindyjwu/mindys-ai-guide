@@ -506,6 +506,16 @@ nav {
   overflow: hidden;
 }
 
+.about-photo {
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
 .about-label {
   font-size: 12px;
   font-weight: 500;
@@ -659,7 +669,8 @@ footer a:hover { text-decoration: underline; }
   .section            { padding: 60px 1.25rem; }
   .try-inner          { padding: 60px 1.25rem; }
   .about-inner        { padding: 60px 1.25rem; }
-  .about-avatar       { max-width: 160px; }
+  .about-avatar,
+  .about-photo        { max-width: 160px; }
   .claude-float-label { display: none; }
   .nav-links li:not(:last-child) { display: none; }
 }

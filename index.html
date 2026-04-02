@@ -223,10 +223,8 @@
 <!-- ===================== ABOUT ===================== -->
 <section class="about-section" id="about">
   <div class="about-inner">
-    <!-- TODO: Replace the M placeholder with your actual photo:
-         <img src="assets/mindy.jpg" alt="Mindy Wu" style="width:100%;border-radius:20px;object-fit:cover;">
-    -->
-    <div class="about-avatar" aria-hidden="true">M</div>
+    <img src="assets/mindy.jpg" alt="Mindy Wu" class="about-photo" onerror="this.style.display='none';document.getElementById('about-avatar-fallback').style.display='flex';">
+    <div class="about-avatar" id="about-avatar-fallback" aria-hidden="true" style="display:none;">M</div>
     <div>
       <div class="about-label">About</div>
       <h2 class="about-title">Hi, I'm Mindy.</h2>
