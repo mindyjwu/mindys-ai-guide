@@ -344,11 +344,12 @@ export default async function handler(req, res) {
         let resultText = '';
 
         if (tu.name === 'search_met_artworks') {
-          const found = await searchMetArtworks(tu.input.query).catch(() => []);
+          // TEMP: Met API disabled for isolation test — using MoMA fallback
+          const found = searchMoMAHighlights(tu.input.query);
           artworks = [...artworks, ...found];
           resultText = found.length > 0
-            ? `Found ${found.length} Met artworks: ${found.map(a => `"${a.title}" by ${a.artist}${a.date ? ` (${a.date})` : ''}`).join('; ')}`
-            : 'No artworks with images found for that search.';
+            ? `Found ${found.length} artworks: ${found.map(a => `"${a.title}" by ${a.artist}${a.date ? ` (${a.date})` : ''}`).join('; ')}`
+            : 'No artworks found for that search.';
 
         } else if (tu.name === 'get_moma_artworks') {
           const found = searchMoMAHighlights(tu.input.theme);
