@@ -316,6 +316,11 @@ function searchMoMAHighlights(theme) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
+  // Diagnostic: confirm env var is present (never log the actual key value)
+  const keyPresent = !!process.env.ANTHROPIC_API_KEY;
+  const keyLength = process.env.ANTHROPIC_API_KEY?.length ?? 0;
+  console.log(`ANTHROPIC_API_KEY present: ${keyPresent}, length: ${keyLength}`);
+
   const { messages } = req.body ?? {};
   if (!Array.isArray(messages) || messages.length === 0) {
     return res.status(400).json({ error: 'messages required' });
@@ -388,7 +393,7 @@ export default async function handler(req, res) {
     res.status(500).json({
       reply: 'The art search ran into an issue — please try again.',
       artworks: [],
-      error: err.message,
+      error: `${err.message} [key present: ${keyPresent}, len: ${keyLength}]`,
     });
   }
 }
