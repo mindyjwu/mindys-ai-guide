@@ -237,19 +237,29 @@ When asked about a specific artwork already shown (e.g. "why this one?", "tell m
 /* ============================================================
    MET MUSEUM API HELPER
    ============================================================ */
+
+// Fetch with a hard timeout so slow Met responses don't eat the whole budget
+function fetchWithTimeout(url, ms = 2500) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { signal: controller.signal })
+    .finally(() => clearTimeout(timer));
+}
+
 async function searchMetArtworks(query) {
   const searchUrl = `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${encodeURIComponent(query)}&hasImages=true`;
-  const searchRes = await fetch(searchUrl);
+
+  const searchRes = await fetchWithTimeout(searchUrl, 3000);
   if (!searchRes.ok) return [];
 
   const { objectIDs } = await searchRes.json();
   if (!objectIDs || objectIDs.length === 0) return [];
 
-  // Fetch details for the first 14 candidates in parallel, keep up to 6 with images
-  const ids = objectIDs.slice(0, 14);
+  // Fetch details for the first 8 candidates in parallel (reduced from 14)
+  const ids = objectIDs.slice(0, 8);
   const details = await Promise.all(
     ids.map(id =>
-      fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`)
+      fetchWithTimeout(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`)
         .then(r => (r.ok ? r.json() : null))
         .catch(() => null)
     )
@@ -257,7 +267,7 @@ async function searchMetArtworks(query) {
 
   return details
     .filter(d => d && d.primaryImageSmall)
-    .slice(0, 6)
+    .slice(0, 5)
     .map(d => ({
       id: `met-${d.objectID}`,
       title: d.title || 'Untitled',
@@ -311,61 +321,81 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'messages required' });
   }
 
-  const recent = messages.slice(-10);
+  try {
+    const recent = messages.slice(-10);
 
-  let resp = await client.messages.create({
-    model: 'claude-opus-4-6',
-    max_tokens: 500,
-    system: SYSTEM,
-    tools,
-    messages: recent,
-  });
+    // "Why this artwork?" follow-ups don't need a tool call — answer directly
+    const lastContent = recent.at(-1)?.content ?? '';
+    const isFollowUp = typeof lastContent === 'string' &&
+      lastContent.startsWith('Tell me more about');
 
-  let artworks = [];
+    // For searches: force tool_choice=any so the first call is tiny (~50 tokens)
+    // For follow-ups: let Claude answer in text with no tool required
+    const firstCallParams = {
+      model: 'claude-opus-4-6',
+      max_tokens: isFollowUp ? 350 : 100,
+      system: SYSTEM,
+      tools,
+      messages: recent,
+      ...(!isFollowUp && { tool_choice: { type: 'any' } }),
+    };
 
-  if (resp.stop_reason === 'tool_use') {
-    const toolUseBlocks = resp.content.filter(b => b.type === 'tool_use');
-    const toolResults = [];
+    let resp = await client.messages.create(firstCallParams);
 
-    for (const tu of toolUseBlocks) {
-      let resultText = '';
+    let artworks = [];
 
-      if (tu.name === 'search_met_artworks') {
-        const found = await searchMetArtworks(tu.input.query).catch(() => []);
-        artworks = [...artworks, ...found];
-        resultText = found.length > 0
-          ? `Found ${found.length} Met artworks: ${found.map(a => `"${a.title}" by ${a.artist}${a.date ? ` (${a.date})` : ''}`).join('; ')}`
-          : 'No artworks with images found for that search.';
+    if (resp.stop_reason === 'tool_use') {
+      const toolUseBlocks = resp.content.filter(b => b.type === 'tool_use');
+      const toolResults = [];
 
-      } else if (tu.name === 'get_moma_artworks') {
-        const found = searchMoMAHighlights(tu.input.theme);
-        artworks = [...artworks, ...found];
-        resultText = found.length > 0
-          ? `Returning ${found.length} MoMA works: ${found.map(a => `"${a.title}" by ${a.artist} (${a.date})`).join('; ')}`
-          : 'No MoMA highlights match that theme.';
+      for (const tu of toolUseBlocks) {
+        let resultText = '';
+
+        if (tu.name === 'search_met_artworks') {
+          const found = await searchMetArtworks(tu.input.query).catch(() => []);
+          artworks = [...artworks, ...found];
+          resultText = found.length > 0
+            ? `Found ${found.length} Met artworks: ${found.map(a => `"${a.title}" by ${a.artist}${a.date ? ` (${a.date})` : ''}`).join('; ')}`
+            : 'No artworks with images found for that search.';
+
+        } else if (tu.name === 'get_moma_artworks') {
+          const found = searchMoMAHighlights(tu.input.theme);
+          artworks = [...artworks, ...found];
+          resultText = found.length > 0
+            ? `Returning ${found.length} MoMA works: ${found.map(a => `"${a.title}" by ${a.artist} (${a.date})`).join('; ')}`
+            : 'No MoMA highlights match that theme.';
+        }
+
+        toolResults.push({
+          type: 'tool_result',
+          tool_use_id: tu.id,
+          content: resultText,
+        });
       }
 
-      toolResults.push({
-        type: 'tool_result',
-        tool_use_id: tu.id,
-        content: resultText,
+      // Second call: Claude comments on the results (300 tokens is plenty)
+      resp = await client.messages.create({
+        model: 'claude-opus-4-6',
+        max_tokens: 300,
+        system: SYSTEM,
+        tools,
+        messages: [
+          ...recent,
+          { role: 'assistant', content: resp.content },
+          { role: 'user', content: toolResults },
+        ],
       });
     }
 
-    // Second round: let Claude compose its response with the artwork results
-    resp = await client.messages.create({
-      model: 'claude-opus-4-6',
-      max_tokens: 500,
-      system: SYSTEM,
-      tools,
-      messages: [
-        ...recent,
-        { role: 'assistant', content: resp.content },
-        { role: 'user', content: toolResults },
-      ],
+    const reply = resp.content.find(b => b.type === 'text')?.text ?? '';
+    res.status(200).json({ reply, artworks });
+
+  } catch (err) {
+    console.error('art-chat error:', err);
+    res.status(500).json({
+      reply: 'The art search ran into an issue — please try again.',
+      artworks: [],
+      error: err.message,
     });
   }
-
-  const reply = resp.content.find(b => b.type === 'text')?.text ?? '';
-  res.status(200).json({ reply, artworks });
 }

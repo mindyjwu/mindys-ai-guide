@@ -481,16 +481,17 @@ async function sendMessage(text) {
 
     loading.remove();
 
-    if (data.reply) {
-      appendBubble('ai', data.reply);
-      history.push({ role: 'assistant', content: data.reply });
+    const reply = data.reply || (res.ok ? '' : 'Something went wrong — please try again.');
+    if (reply) {
+      appendBubble('ai', reply);
+      history.push({ role: 'assistant', content: reply });
     }
     if (data.artworks && data.artworks.length > 0) {
       showArtworks(data.artworks);
     }
-  } catch {
+  } catch (err) {
     loading.remove();
-    appendBubble('ai', 'Something went wrong — please try again.');
+    appendBubble('ai', 'Could not reach the server — please check your connection and try again.');
   }
 
   sendBtn.disabled = false;
