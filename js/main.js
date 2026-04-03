@@ -44,22 +44,106 @@ function initFeedbackForm() {
   });
 }
 
-/* === CLAUDE FLOAT BUTTON === */
+/* === FLOAT BUTTON — toggles the floating chat panel === */
 function initClaudeFloat() {
-  const btn = document.getElementById('claude-float-btn');
-  if (!btn) return;
+  const btn   = document.getElementById('claude-float-btn');
+  const panel = document.getElementById('float-panel');
+  const close = document.getElementById('float-panel-close');
+  if (!btn || !panel) return;
 
   btn.addEventListener('click', function () {
-    // Open claude.ai in a window positioned to the right half of the screen
-    const w = Math.floor(window.screen.width * 0.45);
-    const h = window.screen.height;
-    const left = window.screen.width - w;
-    window.open(
-      'https://claude.ai',
-      'claude-chat',
-      `width=${w},height=${h},left=${left},top=0,resizable=yes,scrollbars=yes`
-    );
+    const open = panel.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    panel.setAttribute('aria-hidden', String(!open));
+    if (open) document.getElementById('float-chat-input')?.focus();
   });
+
+  close?.addEventListener('click', function () {
+    panel.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    panel.setAttribute('aria-hidden', 'true');
+  });
+}
+
+/* === GUIDE CHAT === */
+function createChat(messagesId, inputId, sendId) {
+  const messagesEl = document.getElementById(messagesId);
+  const inputEl    = document.getElementById(inputId);
+  const sendEl     = document.getElementById(sendId);
+  if (!messagesEl || !inputEl || !sendEl) return;
+
+  const history = []; // Anthropic message format
+
+  function appendBubble(role, text) {
+    const msg = document.createElement('div');
+    msg.className = `guide-msg guide-msg--${role}`;
+    const bubble = document.createElement('div');
+    bubble.className = 'guide-msg__bubble';
+    bubble.textContent = text;
+    msg.appendChild(bubble);
+    messagesEl.appendChild(msg);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return msg;
+  }
+
+  function appendVideoRec(video) {
+    if (!video) return;
+    const card = document.createElement('div');
+    card.className = 'guide-video-rec';
+    card.innerHTML = `
+      <div class="guide-video-rec__label">📹 Watch this</div>
+      <div class="guide-video-rec__title">${video.title}</div>
+      <a class="guide-video-rec__link" href="#video-${video.id}">Go to video →</a>`;
+    messagesEl.appendChild(card);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  async function send() {
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    inputEl.value = '';
+    sendEl.disabled = true;
+    appendBubble('user', text);
+    history.push({ role: 'user', content: text });
+
+    const loading = appendBubble('ai loading', 'Thinking…');
+
+    try {
+      const res  = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
+      });
+      const data = await res.json();
+
+      loading.remove();
+
+      if (data.reply) {
+        appendBubble('ai', data.reply);
+        history.push({ role: 'assistant', content: data.reply });
+      }
+      if (data.video) {
+        appendVideoRec(data.video);
+      }
+    } catch {
+      loading.remove();
+      appendBubble('ai', 'Something went wrong — please try again.');
+    }
+
+    sendEl.disabled = false;
+    inputEl.focus();
+  }
+
+  sendEl.addEventListener('click', send);
+  inputEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  });
+}
+
+function initGuideChats() {
+  createChat('guide-chat-messages', 'guide-chat-input', 'guide-chat-send');
+  createChat('float-chat-messages', 'float-chat-input',  'float-chat-send');
 }
 
 /* === SMOOTH ACTIVE NAV === */
@@ -124,4 +208,5 @@ document.addEventListener('DOMContentLoaded', function () {
   initClaudeFloat();
   initActiveNav();
   initVideoCards();
+  initGuideChats();
 });

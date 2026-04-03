@@ -35,6 +35,7 @@
   <ul class="nav-links">
     <li><a href="#videos">Videos</a></li>
     <li><a href="#try">Try It</a></li>
+    <li><a href="#ask">Ask</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#feedback">Feedback</a></li>
     <li><a href="https://claude.ai" target="_blank" rel="noopener" class="nav-cta">Open Claude →</a></li>
@@ -101,7 +102,7 @@
   <div class="video-grid">
 
     <!-- VIDEO 1 — live. Add data-youtube="YOUR_VIDEO_ID" when ready -->
-    <a href="#" class="video-card" data-youtube="">
+    <a href="#" class="video-card" id="video-email" data-youtube="">
       <div class="video-thumb" style="background: #F5E8E2;">
         <span style="font-size: 52px;" aria-hidden="true">✉️</span>
         <div class="video-play">
@@ -118,7 +119,7 @@
     </a>
 
     <!-- VIDEO 2 — coming soon -->
-    <a href="#" class="video-card">
+    <a href="#" class="video-card" id="video-search">
       <div class="video-thumb" style="background: #E4EFE8;">
         <span style="font-size: 52px;" aria-hidden="true">🔍</span>
         <div class="video-play">
@@ -136,7 +137,7 @@
     </a>
 
     <!-- VIDEO 3 — coming soon -->
-    <a href="#" class="video-card">
+    <a href="#" class="video-card" id="video-documents">
       <div class="video-thumb" style="background: #FDF6DC;">
         <span style="font-size: 52px;" aria-hidden="true">📄</span>
         <div class="video-play">
@@ -154,7 +155,7 @@
     </a>
 
     <!-- VIDEO 4 — coming soon -->
-    <a href="#" class="video-card">
+    <a href="#" class="video-card" id="video-planning">
       <div class="video-thumb" style="background: #EEE8FF;">
         <span style="font-size: 52px;" aria-hidden="true">📋</span>
         <div class="video-play">
@@ -224,6 +225,32 @@
   </div>
 </section>
 
+<!-- ===================== ASK THE GUIDE ===================== -->
+<section class="ask-section" id="ask">
+  <div class="ask-inner">
+    <div class="section-label">Ask the Guide</div>
+    <h2 class="section-title">Not sure where to start? Just ask.</h2>
+    <p class="section-sub">Powered by the Anthropic API — Claude reads what videos are available and recommends the right one. This is the MCP concept in action.</p>
+
+    <div class="guide-chat" id="guide-chat">
+      <div class="guide-chat__messages" id="guide-chat-messages">
+        <div class="guide-msg guide-msg--ai">
+          <div class="guide-msg__bubble">Hi! Ask me anything about using Claude — like "how do I write a professional email?" or "what if I get a confusing letter from my insurance?" I'll point you in the right direction.</div>
+        </div>
+      </div>
+      <div class="guide-chat__input-row">
+        <input
+          type="text"
+          class="guide-chat__input"
+          id="guide-chat-input"
+          placeholder="What do you want to do with Claude?"
+          aria-label="Ask the guide a question" />
+        <button class="guide-chat__send" id="guide-chat-send" aria-label="Send">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== ABOUT ===================== -->
 <section class="about-section" id="about">
   <div class="about-inner">
@@ -256,13 +283,38 @@
   </div>
 </section>
 
-<!-- ===================== CLAUDE CHAT FLOAT ===================== -->
-<button class="claude-float" id="claude-float-btn" aria-label="Chat with Claude while you watch">
+<!-- ===================== FLOAT BUTTON ===================== -->
+<button class="claude-float" id="claude-float-btn" aria-label="Ask Mindy's guide" aria-expanded="false">
   <span class="claude-float-icon" aria-hidden="true">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
   </span>
-  <span class="claude-float-label">Chat with Claude</span>
+  <span class="claude-float-label">Ask the guide</span>
 </button>
+
+<!-- ===================== FLOATING CHAT PANEL ===================== -->
+<div class="float-panel" id="float-panel" aria-hidden="true">
+  <div class="float-panel__header">
+    <div class="float-panel__title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Ask the Guide
+    </div>
+    <button class="float-panel__close" id="float-panel-close" aria-label="Close chat">✕</button>
+  </div>
+  <div class="guide-chat__messages" id="float-chat-messages">
+    <div class="guide-msg guide-msg--ai">
+      <div class="guide-msg__bubble">Hi! Ask me anything about using Claude for everyday tasks.</div>
+    </div>
+  </div>
+  <div class="guide-chat__input-row">
+    <input
+      type="text"
+      class="guide-chat__input"
+      id="float-chat-input"
+      placeholder="Ask a question…"
+      aria-label="Ask the guide a question" />
+    <button class="guide-chat__send" id="float-chat-send" aria-label="Send">→</button>
+  </div>
+</div>
 
 <!-- ===================== FOOTER ===================== -->
 <footer>

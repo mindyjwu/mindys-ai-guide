@@ -1,0 +1,9 @@
+{
+  "name": "mindys-ai-guide",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.50.0"
+  }
+}
