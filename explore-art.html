@@ -481,9 +481,12 @@ async function sendMessage(text) {
 
     loading.remove();
 
-    const reply = data.reply || (res.ok ? '' : 'Something went wrong — please try again.');
+    if (data.error) console.error('[art-chat]', data.error);
+    const reply = data.reply || 'Something went wrong — please try again.';
     if (reply) {
-      appendBubble('ai', reply);
+      // Show actual API error during debugging (remove this suffix once working)
+      const debugSuffix = data.error ? `\n\n[debug: ${data.error}]` : '';
+      appendBubble('ai', reply + debugSuffix);
       history.push({ role: 'assistant', content: reply });
     }
     if (data.artworks && data.artworks.length > 0) {
