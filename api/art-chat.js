@@ -324,20 +324,12 @@ export default async function handler(req, res) {
   try {
     const recent = messages.slice(-10);
 
-    // "Why this artwork?" follow-ups don't need a tool call — answer directly
-    const lastContent = recent.at(-1)?.content ?? '';
-    const isFollowUp = typeof lastContent === 'string' &&
-      lastContent.startsWith('Tell me more about');
-
-    // For searches: force tool_choice=any so the first call is tiny (~50 tokens)
-    // For follow-ups: let Claude answer in text with no tool required
     const firstCallParams = {
       model: 'claude-opus-4-6',
-      max_tokens: isFollowUp ? 350 : 100,
+      max_tokens: 300,
       system: SYSTEM,
       tools,
       messages: recent,
-      ...(!isFollowUp && { tool_choice: { type: 'any' } }),
     };
 
     let resp = await client.messages.create(firstCallParams);
