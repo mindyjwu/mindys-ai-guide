@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+// Client initialized inside handler to ensure env var is read fresh each request
 
 /* ============================================================
    MOMA CURATED HIGHLIGHTS — public-domain / well-documented works
@@ -316,10 +316,11 @@ function searchMoMAHighlights(theme) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  // Diagnostic: confirm env var is present (never log the actual key value)
+  // Init client here so it reads env var at request time, not module load time
   const keyPresent = !!process.env.ANTHROPIC_API_KEY;
   const keyLength = process.env.ANTHROPIC_API_KEY?.length ?? 0;
   console.log(`ANTHROPIC_API_KEY present: ${keyPresent}, length: ${keyLength}`);
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
   const { messages } = req.body ?? {};
   if (!Array.isArray(messages) || messages.length === 0) {
