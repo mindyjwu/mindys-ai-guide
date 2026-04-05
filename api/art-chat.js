@@ -321,20 +321,18 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'messages required' });
   }
 
-  const keyPresent = !!process.env.ANTHROPIC_API_KEY;
-  const keyLength = process.env.ANTHROPIC_API_KEY?.length ?? 0;
+  const apiKey = process.env.mindy_secret_key;
 
-  // Fail fast with a clear message if the key is missing
-  if (!keyPresent) {
+  if (!apiKey) {
     return res.status(500).json({
       reply: 'The art search ran into an issue — please try again.',
       artworks: [],
-      error: `ANTHROPIC_API_KEY is not set in Vercel environment variables [key present: false, len: 0]`,
+      error: 'mindy_secret_key is not set in Vercel environment variables',
     });
   }
 
   try {
-    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    const client = new Anthropic({ apiKey });
     const recent = messages.slice(-10);
 
     const firstCallParams = {
@@ -401,7 +399,7 @@ export default async function handler(req, res) {
     res.status(500).json({
       reply: 'The art search ran into an issue — please try again.',
       artworks: [],
-      error: `${err.message} [key present: ${keyPresent}, len: ${keyLength}]`,
+      error: err.message,
     });
   }
 }
