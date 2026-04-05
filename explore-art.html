@@ -48,6 +48,19 @@
       pointer-events: none;
     }
 
+    /* Ambient gold glow */
+    .art-hero::after {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 420px;
+      background: radial-gradient(ellipse, rgba(242,201,76,0.13) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
     .art-hero-inner {
       max-width: 680px;
       margin: 0 auto;
@@ -91,43 +104,56 @@
 
     /* Starter chips */
     .chips-label {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
-      letter-spacing: 0.07em;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
       color: var(--ink-muted);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chips-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
     }
 
     .starter-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 9px;
       margin-bottom: 1.75rem;
     }
 
     .chip {
-      background: var(--warm-white);
+      background: #fff;
       border: 1px solid var(--border);
       border-radius: 100px;
       padding: 9px 18px;
-      font-size: 14px;
+      font-size: 13.5px;
       font-family: 'DM Sans', sans-serif;
       color: var(--ink-soft);
       cursor: pointer;
-      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      transition: border-color 0.15s, color 0.15s, background 0.15s, box-shadow 0.15s;
       line-height: 1;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
 
     .chip:hover {
       border-color: var(--clay);
       color: var(--clay);
       background: var(--clay-light);
+      box-shadow: 0 2px 8px rgba(180, 90, 60, 0.1);
     }
 
     .chip:disabled {
       opacity: 0.45;
       cursor: default;
+      box-shadow: none;
     }
 
     /* Override guide-chat margin since we control spacing */
