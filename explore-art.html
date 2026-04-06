@@ -33,7 +33,7 @@
 
     /* Hero */
     .art-hero {
-      background: linear-gradient(135deg, #2D1F14 0%, #4A2A0A 60%, #1E1A16 100%);
+      background: linear-gradient(160deg, #130A2A 0%, #241550 55%, #0E0820 100%);
       padding: 80px 2rem 72px;
       text-align: center;
       position: relative;
@@ -57,7 +57,7 @@
       transform: translateX(-50%);
       width: 700px;
       height: 420px;
-      background: radial-gradient(ellipse, rgba(242,201,76,0.13) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(155, 95, 191, 0.22) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -68,9 +68,9 @@
     }
 
     .art-hero .hero-tag {
-      background: rgba(242, 201, 76, 0.12);
-      color: var(--butter);
-      border: 1px solid rgba(242, 201, 76, 0.25);
+      background: rgba(155, 95, 191, 0.12);
+      color: #B48FDC;
+      border: 1px solid rgba(155, 95, 191, 0.3);
     }
 
     .art-hero h1 {
@@ -84,7 +84,7 @@
 
     .art-hero h1 em {
       font-style: italic;
-      color: var(--butter);
+      color: #B48FDC;
     }
 
     .art-hero-sub {
@@ -144,10 +144,10 @@
     }
 
     .chip:hover {
-      border-color: var(--clay);
-      color: var(--clay);
-      background: var(--clay-light);
-      box-shadow: 0 2px 8px rgba(180, 90, 60, 0.1);
+      border-color: #6B3FA8;
+      color: #6B3FA8;
+      background: #F5F0FF;
+      box-shadow: 0 2px 8px rgba(107, 63, 168, 0.12);
     }
 
     .chip:disabled {
@@ -285,7 +285,7 @@
 
     .artwork-link {
       font-size: 12px;
-      color: var(--clay);
+      color: #6B3FA8;
       text-decoration: none;
       font-weight: 500;
       flex-shrink: 0;
@@ -295,11 +295,11 @@
 
     .artwork-why {
       font-size: 12px;
-      background: var(--butter-light);
-      border: 1px solid rgba(242, 201, 76, 0.4);
+      background: #F5F0FF;
+      border: 1px solid rgba(107, 63, 168, 0.3);
       border-radius: 100px;
       padding: 5px 12px;
-      color: #7A5C00;
+      color: #4B2DA0;
       font-family: 'DM Sans', sans-serif;
       font-weight: 500;
       cursor: pointer;
@@ -308,8 +308,8 @@
     }
 
     .artwork-why:hover {
-      background: #fae97a;
-      border-color: var(--butter);
+      background: #EDE5FF;
+      border-color: #9B5FBF;
     }
 
     /* Footer note */
@@ -331,6 +331,22 @@
       .art-main { padding: 36px 1.25rem 60px; }
       .artwork-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
     }
+
+    /* Chat overrides */
+    .art-main .guide-chat {
+      border: 1px solid rgba(107, 63, 168, 0.2);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+    }
+    .art-main .guide-msg--ai .guide-msg__bubble {
+      background: #F7F2FF;
+      border-left: 3px solid #9B5FBF;
+    }
+    .art-main .guide-chat__send {
+      background: #4B2DA0;
+    }
+    .art-main .guide-chat__send:hover {
+      background: #3A2080;
+    }
   </style>
 </head>
 <body>
@@ -340,8 +356,8 @@
   <a href="index.html" class="nav-logo">Mindy<span>'s AI Guide</span></a>
   <ul class="nav-links">
     <li><a href="index.html">← Back to Guide</a></li>
-    <li><a href="creator.html" style="color: var(--sage); font-weight: 500;">For Creator ✦</a></li>
-    <li><a href="reader.html" style="color: #A06840; font-weight: 500;">For Reader ✦</a></li>
+    <li><a href="creator.html" style="color: #1A4FCC; font-weight: 500;">For Creator ✦</a></li>
+    <li><a href="reader.html" style="color: #1A7A4A; font-weight: 500;">For Reader ✦</a></li>
     <li><a href="https://claude.ai" target="_blank" rel="noopener" class="nav-cta">Open Claude →</a></li>
   </ul>
 </nav>

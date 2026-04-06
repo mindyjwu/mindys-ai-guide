@@ -630,37 +630,37 @@ nav {
   margin-top: 6px;
 }
 
-/* Explorer — Monet violet/lavender */
+/* Explorer — cobalt violet */
 .tools-card--explorer {
-  border-top: 3px solid #8B6BB1;
+  border-top: 3px solid #6B3FA8;
 }
-.tools-card--explorer .tools-card__tag  { color: #7C5CAF; }
-.tools-card--explorer .tools-card__cta  { color: #8B6BB1; }
+.tools-card--explorer .tools-card__tag  { color: #6B3FA8; }
+.tools-card--explorer .tools-card__cta  { color: #6B3FA8; }
 .tools-card--explorer:hover {
-  background: #F4EFFA;
-  box-shadow: 0 8px 32px rgba(139, 107, 177, 0.15);
+  background: #F5F0FF;
+  box-shadow: 0 8px 32px rgba(107, 63, 168, 0.15);
 }
 
-/* Creator — sage green */
+/* Creator — electric cobalt */
 .tools-card--creator {
-  border-top: 3px solid #6B8E6B;
+  border-top: 3px solid #1A4FCC;
 }
-.tools-card--creator .tools-card__tag  { color: #4A7A4A; }
-.tools-card--creator .tools-card__cta  { color: #6B8E6B; }
+.tools-card--creator .tools-card__tag  { color: #1A4FCC; }
+.tools-card--creator .tools-card__cta  { color: #1A4FCC; }
 .tools-card--creator:hover {
-  background: #EEF5EE;
-  box-shadow: 0 8px 32px rgba(107, 142, 107, 0.15);
+  background: #EEF3FF;
+  box-shadow: 0 8px 32px rgba(26, 79, 204, 0.15);
 }
 
-/* Reader — pine green */
+/* Reader — deep forest emerald */
 .tools-card--reader {
-  border-top: 3px solid #2D6A4F;
+  border-top: 3px solid #1A7A4A;
 }
-.tools-card--reader .tools-card__tag  { color: #1B5E42; }
-.tools-card--reader .tools-card__cta  { color: #2D6A4F; }
+.tools-card--reader .tools-card__tag  { color: #1A7A4A; }
+.tools-card--reader .tools-card__cta  { color: #1A7A4A; }
 .tools-card--reader:hover {
-  background: #E8F5EE;
-  box-shadow: 0 8px 32px rgba(45, 106, 79, 0.15);
+  background: #EEF9F3;
+  box-shadow: 0 8px 32px rgba(26, 122, 74, 0.15);
 }
 
 @media (max-width: 768px) {

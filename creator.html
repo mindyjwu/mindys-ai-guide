@@ -27,7 +27,7 @@
 
     /* ── Hero ── */
     .creator-hero {
-      background: linear-gradient(160deg, #0C1710 0%, #172A1C 50%, #0A120D 100%);
+      background: linear-gradient(160deg, #08101F 0%, #0F2050 55%, #060C18 100%);
       padding: 88px 2rem 80px;
       text-align: center;
       position: relative;
@@ -43,7 +43,7 @@
       transform: translateX(-50%);
       width: 600px;
       height: 400px;
-      background: radial-gradient(ellipse, rgba(107,142,107,0.18) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(79, 142, 245, 0.2) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -71,9 +71,9 @@
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--sage);
-      border: 1px solid rgba(107, 142, 107, 0.3);
-      background: rgba(107, 142, 107, 0.06);
+      color: #7AADFF;
+      border: 1px solid rgba(79, 142, 245, 0.3);
+      background: rgba(79, 142, 245, 0.07);
       padding: 5px 14px;
       border-radius: 999px;
       margin-bottom: 28px;
@@ -90,7 +90,7 @@
 
     .creator-hero__title em {
       font-style: italic;
-      color: #8FBF8F;
+      color: #7AADFF;
     }
 
     .creator-hero__sub {
@@ -125,7 +125,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #6B8E6B;
+      color: #1A4FCC;
       margin-bottom: 18px;
       display: flex;
       align-items: center;
@@ -136,7 +136,7 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: rgba(107, 142, 107, 0.2);
+      background: rgba(79, 142, 245, 0.2);
     }
 
     /* ── Starter cards ── */
@@ -149,7 +149,7 @@
 
     .creator-card {
       background: #fff;
-      border: 1px solid rgba(107, 142, 107, 0.18);
+      border: 1px solid rgba(79, 142, 245, 0.18);
       border-radius: 14px;
       padding: 18px 18px 16px;
       text-align: left;
@@ -164,14 +164,14 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(107,142,107,0.04) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(79,142,245,0.05) 0%, transparent 60%);
       opacity: 0;
       transition: opacity 0.18s;
     }
 
     .creator-card:hover {
-      border-color: rgba(107, 142, 107, 0.5);
-      box-shadow: 0 4px 20px rgba(107, 142, 107, 0.12);
+      border-color: rgba(79, 142, 245, 0.5);
+      box-shadow: 0 4px 20px rgba(79, 142, 245, 0.12);
       transform: translateY(-2px);
     }
 
@@ -195,34 +195,34 @@
     .creator-card__title {
       font-size: 0.88rem;
       font-weight: 500;
-      color: #2A3A2A;
+      color: #0A1530;
       margin-bottom: 4px;
       line-height: 1.3;
     }
 
     .creator-card__desc {
       font-size: 0.76rem;
-      color: #7A8A7A;
+      color: #5A6A8A;
       line-height: 1.5;
     }
 
     /* ── Chat overrides ── */
     .creator-main .guide-chat {
       box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
-      border: 1px solid rgba(107, 142, 107, 0.2);
+      border: 1px solid rgba(79, 142, 245, 0.2);
     }
 
     .creator-main .guide-msg--ai .guide-msg__bubble {
-      background: #EEF3EE;
-      border-left: 3px solid #6B8E6B;
+      background: #EEF3FF;
+      border-left: 3px solid #4F8EF5;
     }
 
     .creator-main .guide-chat__send {
-      background: #4A7A4A;
+      background: #1A4FCC;
     }
 
     .creator-main .guide-chat__send:hover {
-      background: #3A6A3A;
+      background: #1240B0;
     }
   </style>
 </head>
@@ -233,7 +233,8 @@
   <a href="index.html" class="nav-logo">Mindy<span>'s AI Guide</span></a>
   <ul class="nav-links">
     <li><a href="index.html">← Back to Guide</a></li>
-    <li><a href="explore-art.html" style="color: var(--clay); font-weight: 500;">For Explorer ✦</a></li>
+    <li><a href="explore-art.html" style="color: #6B3FA8; font-weight: 500;">For Explorer ✦</a></li>
+    <li><a href="reader.html" style="color: #1A7A4A; font-weight: 500;">For Reader ✦</a></li>
     <li><a href="https://claude.ai" target="_blank" rel="noopener" class="nav-cta">Open Claude →</a></li>
   </ul>
 </nav>
