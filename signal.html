@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Real-time AI and innovation intelligence across 16 industries — updated daily.">
+  <meta property="og:title" content="SIGNAL — AI Innovation Feed · Mindy's AI Guide">
+  <meta property="og:description" content="Live AI and tech intelligence across Biotech, Hardware, Media, Finance, and 12 more industries.">
+  <title>SIGNAL — AI Innovation Feed · Mindy's AI Guide</title>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#eef2eb;--card:#fff;--sage:#6b8f71;--sd:#3a5c40;
+      --sl:#d9e8d9;--sm:#a8c4a8;--br:#dce8db;--tx:#1c2b1e;--mu:#7a8c7b;
+      --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+      --sh2:0 6px 24px rgba(0,0,0,.11),0 1px 4px rgba(0,0,0,.06);
+    }
+
+    /* ── Site nav (matches your existing pages) ── */
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--tx)}
+    .site-nav{background:#fff;border-bottom:1px solid var(--br);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:60}
+    .site-nav-brand{font-size:15px;font-weight:700;color:var(--sd);text-decoration:none}
+    .site-nav-links{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+    .site-nav-links a{font-size:12.5px;font-weight:500;color:var(--mu);text-decoration:none;padding:5px 10px;border-radius:6px;transition:all .15s;white-space:nowrap}
+    .site-nav-links a:hover{background:var(--sl);color:var(--sd)}
+    .site-nav-links a.active{background:var(--sd);color:#fff}
+    .site-nav-links a.cta{color:var(--sd);font-weight:600}
+
+    /* ── SIGNAL header ── */
+    .signal-header{background:#fff;border-bottom:1px solid var(--br);padding:20px 32px 14px}
+    .sh-top{display:flex;align-items:center;gap:12px;margin-bottom:3px}
+    .ldot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:pls 2s infinite;flex-shrink:0}
+    @keyframes pls{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 6px rgba(74,222,128,0)}}
+    .brand{font-size:26px;font-weight:900;letter-spacing:-1.5px;color:var(--sd)}
+    .brand span{color:var(--sage)}
+    .lvbg{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--sage);border:1.5px solid var(--sage);padding:2px 7px;border-radius:4px}
+    .hsub{font-size:11.5px;color:var(--mu)}
+
+    /* ── Stats bar ── */
+    .sbar{background:var(--sd);padding:11px 32px;display:flex;align-items:center}
+    .si{display:flex;flex-direction:column;padding-right:22px}
+    .sn{font-size:20px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1}
+    .sl2{font-size:9px;color:var(--sm);text-transform:uppercase;letter-spacing:1.2px;margin-top:2px}
+    .sdv{width:1px;height:24px;background:rgba(255,255,255,.15);margin-right:22px}
+
+    /* ── Feed nav ── */
+    .feed-nav{background:#fff;border-bottom:1px solid var(--br);padding:0 32px;display:flex;align-items:center;gap:2px}
+    .ntab{padding:11px 14px;font-size:12.5px;font-weight:600;color:var(--mu);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;transition:all .15s;position:relative;top:1px}
+    .ntab:hover{color:var(--sd)}.ntab.active{color:var(--sd);border-bottom-color:var(--sd)}
+    .nsp{flex:1}
+    .ddw{position:relative;padding:7px 0}
+    .ddb{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;border:1.5px solid var(--br);background:transparent;color:var(--tx);font-size:11.5px;font-weight:600;cursor:pointer;transition:all .15s}
+    .ddb:hover,.ddb.open{border-color:var(--sage);background:var(--sl);color:var(--sd)}
+    .ddc{font-size:9px;transition:transform .2s;display:inline-block}.ddb.open .ddc{transform:rotate(180deg)}
+    .ddm{position:absolute;top:calc(100% + 3px);right:0;background:#fff;border:1px solid var(--br);border-radius:12px;padding:8px;box-shadow:0 8px 32px rgba(0,0,0,.12);z-index:300;display:grid;grid-template-columns:1fr 1fr;gap:3px;min-width:314px;opacity:0;pointer-events:none;transform:translateY(-6px);transition:all .18s}
+    .ddm.open{opacity:1;pointer-events:all;transform:translateY(0)}
+    .ddi{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:500;color:var(--tx);border:none;background:transparent;text-align:left;width:100%;transition:background .12s}
+    .ddi:hover{background:var(--bg)}.ddi.sel{background:var(--sl);color:var(--sd);font-weight:700}
+    .ddi-all{grid-column:1/-1;border-bottom:1px solid var(--br);padding-bottom:6px;margin-bottom:2px}
+    .ddd{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+    /* ── Status ── */
+    .stbar{padding:7px 32px;font-size:11px;display:flex;align-items:center;gap:7px;transition:all .3s}
+    .stbar.loading{background:#fffbeb;color:#92400e;border-bottom:1px solid #fde68a}
+    .stbar.live{background:#f0fdf4;color:#15803d;border-bottom:1px solid #bbf7d0}
+    .stbar.demo{background:#f8faff;color:#3b5a9a;border-bottom:1px solid #c7d8f7}
+    .stbar.arch{background:#f5f3ff;color:#5b21b6;border-bottom:1px solid #ddd6fe}
+    .stdt{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+    /* ── Grid & Cards ── */
+    .ca{padding:20px 32px;max-width:1400px;margin:0 auto}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:14px}
+    .slbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);margin-bottom:14px}
+    .dhdr{font-size:11px;font-weight:700;color:var(--mu);margin:20px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--br)}
+    .card{background:var(--card);border-radius:12px;box-shadow:var(--sh);cursor:pointer;overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--br);transition:box-shadow .2s,transform .2s}
+    .card:hover{box-shadow:var(--sh2);transform:translateY(-2px)}
+    .ct{height:140px;position:relative;overflow:hidden}
+    .ct-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s}
+    .ct-img.ok{opacity:1}
+    .ct-ov{position:absolute;inset:0}
+    .ct-cnt{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:13px 18px}
+    .stbig{font-size:44px;font-weight:900;letter-spacing:-3px;line-height:1;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.35)}
+    .stlbl{font-size:10px;color:rgba(255,255,255,.75);font-weight:500;margin-top:1px}
+    .cb{padding:14px 18px;flex:1;display:flex;flex-direction:column;gap:8px}
+    .chip{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:3px 8px;border-radius:4px;width:fit-content}
+    .chl{font-size:14px;font-weight:700;line-height:1.42;color:var(--tx);letter-spacing:-.2px}
+    .csu{font-size:11.5px;color:var(--mu);line-height:1.65}
+    .cft{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px;border-top:1px solid var(--br)}
+    .cmeta{display:flex;flex-direction:column;gap:2px}
+    .cco{font-size:10px;color:var(--mu);font-weight:600}
+    .csrc{font-size:9.5px;color:var(--sage);font-weight:600;text-decoration:none}
+    .csrc:hover{color:var(--sd);text-decoration:underline}
+    .arr{font-size:11px;color:var(--mu);background:var(--bg);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--br);flex-shrink:0;transition:all .15s}
+    .card:hover .arr{background:var(--sd);color:#fff;border-color:var(--sd)}
+    .tag{font-size:9px;color:var(--mu);border:1px solid var(--br);padding:2px 6px;border-radius:4px;font-weight:500;background:var(--bg)}
+
+    /* ── Modal ── */
+    .mo{position:fixed;inset:0;background:rgba(20,35,20,.5);backdrop-filter:blur(10px);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .mo.open{opacity:1;pointer-events:all}
+    .mdl{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:660px;max-height:86vh;overflow-y:auto;transform:translateY(30px);transition:transform .32s cubic-bezier(.32,.72,0,1);scrollbar-width:thin}
+    .mo.open .mdl{transform:translateY(0)}
+    .mhdr{height:190px;position:relative;border-radius:20px 20px 0 0;overflow:hidden;display:flex;align-items:flex-end;padding:20px 26px}
+    .mhbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s}
+    .mhbg.ok{opacity:1}.mhov{position:absolute;inset:0}
+    .mhcnt{position:relative;z-index:2}
+    .mhnum{font-size:58px;font-weight:900;letter-spacing:-4px;line-height:1;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.4)}
+    .mhlbl{font-size:12px;color:rgba(255,255,255,.65);margin-top:1px}
+    .mcls{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .18s}
+    .mcls:hover{background:rgba(0,0,0,.5)}
+    .mbdy{padding:22px 26px}
+    .mir{display:flex;align-items:center;gap:9px;margin-bottom:10px;flex-wrap:wrap}
+    .msrc{font-size:10px;color:var(--sage);text-decoration:none;font-weight:600}
+    .msrc:hover{text-decoration:underline;color:var(--sd)}
+    .mhl{font-size:19px;font-weight:800;letter-spacing:-.5px;line-height:1.3;color:var(--tx);margin-bottom:16px}
+    .mmet{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+    .mmc{background:var(--bg);border:1px solid var(--br);border-radius:10px;padding:13px;text-align:center}
+    .mmv{font-size:18px;font-weight:900;letter-spacing:-.5px;line-height:1}
+    .mml{font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+    .mdet{font-size:13px;line-height:1.82;color:#4a5e4b;margin-bottom:16px}
+    .mtgs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+    .mft{font-size:10px;color:var(--mu);padding-top:12px;border-top:1px solid var(--br);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .mft a{color:var(--sage);text-decoration:none;font-weight:600}.mft a:hover{text-decoration:underline}
+
+    /* ── Site footer ── */
+    .site-footer{text-align:center;padding:32px;font-size:12px;color:var(--mu);border-top:1px solid var(--br);margin-top:40px;background:#fff}
+    .site-footer a{color:var(--sage);text-decoration:none}.site-footer a:hover{text-decoration:underline}
+
+    /* ── Empty / error ── */
+    .empty{text-align:center;padding:60px 32px;color:var(--mu)}
+    .empty h2{color:var(--tx);margin-bottom:8px}
+    .aempty{text-align:center;padding:50px;color:var(--mu);font-size:13px;line-height:1.8}
+
+    @media(max-width:600px){
+      .site-nav,.signal-header,.sbar,.feed-nav,.ca,.stbar{padding-left:16px;padding-right:16px}
+      .mmet{grid-template-columns:repeat(2,1fr)}.mbdy{padding:16px}
+      .grid{grid-template-columns:1fr}.ddm{min-width:260px;grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Site nav ───────────────────────────────── -->
+<nav class="site-nav">
+  <a href="/index.html" class="site-nav-brand">Mindy's AI Guide</a>
+  <div class="site-nav-links">
+    <a href="/index.html">← Back to Guide</a>
+    <a href="/explore-art.html">For Explorer ✦</a>
+    <a href="/creator.html">For Creator ✦</a>
+    <a href="/reader.html">For Reader ✦</a>
+    <a href="/signal.html" class="active">SIGNAL ✦</a>
+    <a href="https://claude.ai" class="cta">Open Claude →</a>
+  </div>
+</nav>
+
+<!-- ── SIGNAL header ───────────────────────────── -->
+<div class="signal-header">
+  <div class="sh-top">
+    <div class="ldot"></div>
+    <div class="brand">SIG<span>NAL</span></div>
+    <div class="lvbg">LIVE</div>
+  </div>
+  <div class="hsub">AI &amp; innovation intelligence · Updated daily across 16 industries</div>
+</div>
+
+<!-- ── Stats bar ───────────────────────────────── -->
+<div class="sbar">
+  <div class="si"><div class="sn" id="s-st">—</div><div class="sl2">Today</div></div>
+  <div class="sdv"></div>
+  <div class="si"><div class="sn">16</div><div class="sl2">Industries</div></div>
+  <div class="sdv"></div>
+  <div class="si"><div class="sn" id="s-hot">—</div><div class="sl2">Hot Sector</div></div>
+  <div class="sdv"></div>
+  <div class="si"><div class="sn" id="s-fund">—</div><div class="sl2">Funding Signal</div></div>
+</div>
+
+<!-- ── Feed nav ────────────────────────────────── -->
+<div class="feed-nav">
+  <button class="ntab active" id="t-today" onclick="switchView('today')">Today's Digest</button>
+  <button class="ntab" id="t-arch" onclick="switchView('archive')">Archive</button>
+  <div class="nsp"></div>
+  <div class="ddw" id="ddw">
+    <button class="ddb" id="ddb" onclick="toggleDD(event)">
+      <span id="ddlbl">All Industries</span>
+      <span class="ddc">▾</span>
+    </button>
+    <div class="ddm" id="ddm">
+      <button class="ddi ddi-all sel" id="ddi-all" onclick="selInd(null)">◈&nbsp; All Industries</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Status bar ──────────────────────────────── -->
+<div class="stbar demo" id="stbar">
+  <div class="stdt" id="stdt" style="background:#3b82f6"></div>
+  <span id="stxt">Loading…</span>
+</div>
+
+<!-- ── Feed content ────────────────────────────── -->
+<div class="ca"><div id="content"></div></div>
+
+<!-- ── Modal ───────────────────────────────────── -->
+<div class="mo" id="mo">
+  <div class="mdl">
+    <div id="mhsec"></div>
+    <div class="mbdy" id="mbdy"></div>
+  </div>
+</div>
+
+<!-- ── Site footer ─────────────────────────────── -->
+<footer class="site-footer">
+  ✦ Powered by <strong>Claude</strong> (Anthropic) with live web search &nbsp;·&nbsp;
+  Made with curiosity by <a href="https://linkedin.com/in/mindyjwu/">Mindy Wu</a> &nbsp;·&nbsp;
+  <a href="/index.html">← Back to Guide</a>
+</footer>
+
+<script>
+const META={
+  biotech:      {label:'Biotech & Health',         color:'#0891b2',bg:'linear-gradient(135deg,#0369a1,#0891b2)'},
+  media:        {label:'Media & Creative',          color:'#7c3aed',bg:'linear-gradient(135deg,#5b21b6,#7c3aed)'},
+  legal:        {label:'Legal Tech',                color:'#d97706',bg:'linear-gradient(135deg,#b45309,#d97706)'},
+  hardware:     {label:'Hardware & Chips',          color:'#ea580c',bg:'linear-gradient(135deg,#c2410c,#ea580c)'},
+  software:     {label:'Software & AI',             color:'#2563eb',bg:'linear-gradient(135deg,#1d4ed8,#2563eb)'},
+  agriculture:  {label:'Agriculture & FoodTech',   color:'#16a34a',bg:'linear-gradient(135deg,#15803d,#16a34a)'},
+  finance:      {label:'Finance & Fintech',         color:'#059669',bg:'linear-gradient(135deg,#047857,#059669)'},
+  energy:       {label:'Energy & Climate',          color:'#dc2626',bg:'linear-gradient(135deg,#b91c1c,#dc2626)'},
+  manufacturing:{label:'Manufacturing & Robotics',  color:'#6d28d9',bg:'linear-gradient(135deg,#4c1d95,#6d28d9)'},
+  education:    {label:'Education & Research',      color:'#db2777',bg:'linear-gradient(135deg,#be185d,#db2777)'},
+  space:        {label:'Space & Aerospace',         color:'#0e7490',bg:'linear-gradient(135deg,#155e75,#0e7490)'},
+  defense:      {label:'Defense & Cyber',           color:'#374151',bg:'linear-gradient(135deg,#1f2937,#374151)'},
+  mobility:     {label:'Mobility & Transport',      color:'#92400e',bg:'linear-gradient(135deg,#78350f,#92400e)'},
+  gaming:       {label:'Gaming & XR',               color:'#5b21b6',bg:'linear-gradient(135deg,#3b0764,#5b21b6)'},
+  retail:       {label:'Retail & E-commerce',       color:'#b45309',bg:'linear-gradient(135deg,#92400e,#b45309)'},
+  others:       {label:'Others',                    color:'#4b5563',bg:'linear-gradient(135deg,#374151,#4b5563)'},
+};
+const PHOTO={
+  biotech:'JHlX0kJ57Fk',hardware:'iar-afB0QQw',software:'f77Bh3inUpE',
+  media:'7e2pe9wjL9M',legal:'Ork36HzfM0U',agriculture:'jFCViYFYcus',
+  finance:'jpqyfK7GB4w',energy:'Q0-fOL2nqZc',manufacturing:'U33fHryBYBU',
+  education:'RLw-UC03Gwc',space:'yZygONrUBe8',defense:'wX2L8L-fGeA',
+  mobility:'ydpqMHNtGEE',gaming:'m3th_-a7M1A',retail:'R5A_YlcSe2c',others:'q10VITrVYUM'
+};
+const TODAY=new Date().toISOString().split('T')[0];
+let todayStories=[],archiveDays=[],curView='today',selIndustry=null;
+
+function imgUrl(s){const pid=PHOTO[s.industry]||PHOTO.others;return`https://images.unsplash.com/photo-${pid}?w=800&h=300&fit=crop&auto=format&q=75`;}
+function fbUrl(s){const seed=((s.company||'')+(s.industry||'')).replace(/\W/g,'').toLowerCase().slice(0,18)||'tech';return`https://picsum.photos/seed/${seed}/800/300`;}
+
+// localStorage cache
+function saveDay(st){try{localStorage.setItem('sig:'+TODAY,JSON.stringify(st));}catch(e){}}
+function loadDay(){try{const r=localStorage.getItem('sig:'+TODAY);return r?JSON.parse(r):null;}catch(e){return null;}}
+function loadArchive(){
+  try{
+    const days=[];
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&k.startsWith('sig:')&&k!=='sig:'+TODAY){
+        try{const v=localStorage.getItem(k);if(v)days.push({date:k.replace('sig:',''),stories:JSON.parse(v)});}catch(e){}
+      }
+    }
+    return days.sort((a,b)=>b.date.localeCompare(a.date));
+  }catch(e){return[];}
+}
+
+// Card builder
+function makeCard(s){
+  const m=META[s.industry]||META.others;
+  const iu=imgUrl(s),fu=fbUrl(s);
+  const el=document.createElement('div');
+  el.className='card';el.onclick=()=>openModal(s);
+  el.innerHTML=`
+    <div class="ct" style="background:${m.bg}">
+      <img class="ct-img" src="${iu}" alt="" loading="lazy"
+        onload="this.classList.add('ok')"
+        onerror="this.src='${fu}';this.onerror=null;setTimeout(()=>this.classList.add('ok'),50)">
+      <div class="ct-ov" style="background:linear-gradient(135deg,${m.color}d8,${m.color}85)"></div>
+      <div class="ct-cnt">
+        <div class="stbig">${s.stat||'—'}</div>
+        <div class="stlbl">${s.statLabel||''}</div>
+      </div>
+    </div>
+    <div class="cb">
+      <div class="chip" style="background:${m.color}18;color:${m.color}">${m.label}</div>
+      <div class="chl">${s.headline}</div>
+      <div class="csu">${s.summary}</div>
+      <div class="cft">
+        <div class="cmeta">
+          ${s.company?`<div class="cco">${s.company}</div>`:''}
+          ${s.url?`<a class="csrc" href="${s.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗ ${s.source||'Read article'}</a>`:s.source?`<div class="cco">${s.source}</div>`:''}
+        </div>
+        <div class="arr">→</div>
+      </div>
+    </div>`;
+  return el;
+}
+
+function rGrid(stories,container){
+  const g=document.createElement('div');g.className='grid';
+  stories.forEach(s=>g.appendChild(makeCard(s)));
+  container.appendChild(g);
+}
+
+function showToday(){
+  const c=document.getElementById('content');c.innerHTML='';
+  const fs=selIndustry?todayStories.filter(s=>s.industry===selIndustry):todayStories;
+  if(!fs.length){c.innerHTML=`<div class="empty"><h2>${selIndustry?'No stories today in this category':'No stories yet'}</h2></div>`;return;}
+  const lbl=document.createElement('div');lbl.className='slbl';
+  lbl.textContent=selIndustry?`Today · ${META[selIndustry]?.label}`:`Today — ${new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}`;
+  c.appendChild(lbl);rGrid(fs,c);
+}
+
+function showArchive(){
+  const c=document.getElementById('content');c.innerHTML='';
+  if(!archiveDays.length){c.innerHTML='<div class="aempty">Archive is empty — past stories are saved automatically each day.</div>';return;}
+  let any=false;
+  archiveDays.forEach(day=>{
+    const fs=selIndustry?day.stories.filter(s=>s.industry===selIndustry):day.stories;
+    if(!fs.length)return;any=true;
+    const dh=document.createElement('div');dh.className='dhdr';
+    dh.textContent=new Date(day.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+    c.appendChild(dh);rGrid(fs,c);
+  });
+  if(!any)c.innerHTML='<div class="aempty">No archived stories match this filter.</div>';
+}
+
+function renderView(){curView==='today'?showToday():showArchive();}
+
+function switchView(v){
+  curView=v;
+  document.getElementById('t-today').classList.toggle('active',v==='today');
+  document.getElementById('t-arch').classList.toggle('active',v==='archive');
+  if(v==='archive')setSt('arch','#8b5cf6','Viewing archive — past stories stored locally');
+  else if(todayStories.length)setSt('live','#15803d',`✓ ${todayStories.length} stories today · ${TODAY}`);
+  renderView();
+}
+
+function buildDD(){
+  const m=document.getElementById('ddm');
+  document.getElementById('ddi-all').onclick=()=>selInd(null);
+  Object.entries(META).forEach(([id,mt])=>{
+    const b=document.createElement('button');b.className='ddi';b.id='ddi-'+id;
+    b.innerHTML=`<span class="ddd" style="background:${mt.color}"></span>${mt.label}`;
+    b.onclick=()=>selInd(id);m.appendChild(b);
+  });
+}
+
+function toggleDD(e){
+  e.stopPropagation();
+  const btn=document.getElementById('ddb'),menu=document.getElementById('ddm');
+  const was=menu.classList.contains('open');
+  closeDD();if(!was){btn.classList.add('open');menu.classList.add('open');}
+}
+function closeDD(){document.getElementById('ddb').classList.remove('open');document.getElementById('ddm').classList.remove('open');}
+function selInd(id){
+  selIndustry=id;closeDD();
+  document.getElementById('ddlbl').textContent=id?META[id]?.label||id:'All Industries';
+  document.querySelectorAll('.ddi').forEach(b=>b.classList.remove('sel'));
+  document.getElementById(id?'ddi-'+id:'ddi-all')?.classList.add('sel');
+  renderView();
+}
+document.addEventListener('click',e=>{if(!document.getElementById('ddw').contains(e.target))closeDD();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+function setSt(type,dot,txt){
+  document.getElementById('stbar').className='stbar '+type;
+  document.getElementById('stdt').style.background=dot;
+  document.getElementById('stxt').textContent=txt;
+}
+
+function openModal(s){
+  const m=META[s.industry]||META.others;
+  const iu=imgUrl(s),fu=fbUrl(s);
+  document.getElementById('mhsec').innerHTML=`
+    <div class="mhdr" style="background:${m.bg}">
+      <img class="mhbg" src="${iu}" alt=""
+        onload="this.classList.add('ok')"
+        onerror="this.src='${fu}';this.onerror=null;setTimeout(()=>this.classList.add('ok'),50)">
+      <div class="mhov" style="background:linear-gradient(135deg,${m.color}d8,${m.color}80)"></div>
+      <button class="mcls" id="mclsbtn">✕</button>
+      <div class="mhcnt">
+        <div class="mhnum">${s.stat||'—'}</div>
+        <div class="mhlbl">${s.statLabel||''}</div>
+      </div>
+    </div>`;
+  document.getElementById('mclsbtn').onclick=closeModal;
+  const mets=[{v:s.stat||'—',l:s.statLabel||'Key Metric'},{v:s.metricB||'—',l:s.metricBLabel||'Impact'},{v:s.metricC||'—',l:s.metricCLabel||'Scale'}];
+  document.getElementById('mbdy').innerHTML=`
+    <div class="mir">
+      <div class="chip" style="background:${m.color}18;color:${m.color}">${m.label}</div>
+      ${s.url?`<a class="msrc" href="${s.url}" target="_blank" rel="noopener">↗ ${s.source||'Read article'}</a>`:s.source?`<span style="font-size:10px;color:var(--mu)">${s.source}</span>`:''}
+    </div>
+    <div class="mhl">${s.headline}</div>
+    <div class="mmet">${mets.map(x=>`<div class="mmc"><div class="mmv" style="color:${m.color}">${x.v}</div><div class="mml">${x.l}</div></div>`).join('')}</div>
+    <div class="mdet">${s.detail||s.summary}</div>
+    <div class="mtgs">${(s.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    <div class="mft">
+      ${s.company?`<span>${s.company}</span>`:''}
+      ${s.company&&s.url?'<span>·</span>':''}
+      ${s.url?`<a href="${s.url}" target="_blank" rel="noopener">↗ ${s.source||'Source'}</a>`:''}
+      <span style="margin-left:auto;opacity:.6">${s.date||TODAY}</span>
+    </div>`;
+  document.getElementById('mo').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('mo').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('mo').addEventListener('click',e=>{if(e.target===document.getElementById('mo'))closeModal();});
+
+// JSON extractor
+function xJ(txt){
+  const c=txt.replace(/```json\s*/g,'').replace(/```\s*/g,'');
+  let d=0,s=-1,e=-1;
+  for(let i=0;i<c.length;i++){
+    if(c[i]==='{'){if(!d)s=i;d++;}else if(c[i]==='}'){d--;if(!d&&s>=0){e=i;break;}}
+  }
+  if(s<0||e<0)throw new Error('No JSON');
+  const sl=c.slice(s,e+1);
+  try{return JSON.parse(sl);}catch(err){return JSON.parse(sl.replace(/,(\s*[}\]])/g,'$1').replace(/[\x00-\x1F]/g,''));}
+}
+
+// Demo fallback
+const DEMO=[
+  {industry:'software',company:'Anthropic',headline:'Claude 4 Sets New Reasoning Benchmarks Across All Evals',summary:'Anthropic released Claude 4 with 40% improvement in multi-step reasoning and 92% MATH benchmark score. Enterprise API usage tripled within the first week.',stat:'92%',statLabel:'MATH benchmark',metricB:'3×',metricBLabel:'API growth',metricC:'$40B',metricCLabel:'Valuation',detail:'Claude 4 represents one of the most significant capability leaps since GPT-4. The model family includes Haiku, Sonnet, and Opus tiers. Enterprise demand has surged with the company forecasting $2B in annualized revenue.',tags:['LLM','Reasoning','API'],source:'TechCrunch',url:'https://techcrunch.com'},
+  {industry:'biotech',company:'Recursion Pharmaceuticals',headline:'AI Platform Discovers Cancer Drug Candidates in 6 Weeks',summary:'Recursion\'s AI identified three novel drug candidates in just 6 weeks — a process traditionally taking 2–3 years. A $150M Roche co-development deal followed.',stat:'$150M',statLabel:'Roche deal',metricB:'6wk',metricBLabel:'Discovery time',metricC:'15×',metricCLabel:'vs. traditional',detail:'Recursion\'s phenomics platform processes millions of cellular images to identify biological patterns. The Roche partnership targets KRAS-mutant cancers — one of oncology\'s hardest targets.',tags:['Drug Discovery','Oncology','Roche'],source:'STAT News',url:'https://statnews.com'},
+  {industry:'hardware',company:'NVIDIA',headline:'Blackwell Ultra GPUs Deliver 4× LLM Training Speed',summary:'NVIDIA\'s GB300 chips ship to hyperscalers with 4x training throughput. Microsoft and Google committed to $40B combined orders through 2026.',stat:'4×',statLabel:'Training speed',metricB:'$40B',metricBLabel:'Combined orders',metricC:'288GB',metricCLabel:'HBM3e memory',detail:'The Blackwell Ultra architecture features 288GB of HBM3e memory and a new NVLink reducing communication overhead by 60%.',tags:['GPU','AI Compute','TSMC'],source:'Reuters',url:'https://reuters.com/technology'},
+  {industry:'energy',company:'Form Energy',headline:'Iron-Air Batteries Hit $20/kWh for 100-Hour Grid Storage',summary:'Form Energy deployed at 10 US utility sites with 100-hour storage — 80% cheaper than lithium-ion. The breakthrough makes 24/7 renewable power viable.',stat:'$20',statLabel:'Per kWh cost',metricB:'100hr',metricBLabel:'Storage duration',metricC:'1.2GWh',metricCLabel:'Deployed capacity',detail:'Form Energy\'s iron-air technology uses a rust/de-rust cycle. At $20/kWh, utilities can build fully renewable grids. The DOE awarded a $750M loan guarantee.',tags:['Grid Storage','Renewable','Battery'],source:'Bloomberg',url:'https://bloomberg.com/green'},
+  {industry:'manufacturing',company:'Figure AI',headline:'Figure 02 Humanoid Robots Deploy at 3 BMW Plants',summary:'Figure AI\'s humanoid robots began commercial deployment at three BMW facilities at 99.2% accuracy. A $675M Series B valued the company at $3.2B.',stat:'99.2%',statLabel:'Task accuracy',metricB:'$675M',metricBLabel:'Series B raised',metricC:'10hr',metricCLabel:'To learn new task',detail:'The Figure 02 marks the first large-scale commercial humanoid robot deployment in automotive manufacturing. Robots learn new tasks in 10 hours vs. 6–12 months for traditional robots.',tags:['Humanoid','Automotive','VLA'],source:'Wall Street Journal',url:'https://wsj.com'},
+];
+
+async function fetchStories(){
+  setSt('loading','#d97706','Fetching today\'s live stories (~20s)…');
+  try{
+    const res=await fetch('/api/signal');
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const data=await res.json();
+    const st=data.stories||[];
+    if(st.length){
+      todayStories=st;
+      saveDay(st);
+      document.getElementById('s-st').textContent=st.length;
+      const hm=META[data.meta?.hottest];
+      document.getElementById('s-hot').textContent=hm?hm.label.split(' ')[0]:data.meta?.hottest||'AI';
+      document.getElementById('s-fund').textContent=data.meta?.totalFunding||'—';
+      setSt('live','#15803d',`✓ ${st.length} live stories loaded · ${TODAY}`);
+      renderView();
+    }else{setSt('demo','#3b82f6','Showing sample stories — live fetch returned no results');}
+  }catch(e){
+    console.error(e);
+    setSt('demo','#3b82f6','Showing sample stories · live data unavailable');
+  }
+}
+
+async function init(){
+  buildDD();
+  archiveDays=loadArchive();
+  const stored=loadDay();
+  if(stored?.length){
+    todayStories=stored;
+    document.getElementById('s-st').textContent=stored.length;
+    setSt('live','#15803d',`✓ Today's ${stored.length} stories · ${TODAY}`);
+    renderView();return;
+  }
+  todayStories=DEMO.slice();
+  document.getElementById('s-st').textContent=DEMO.length;
+  document.getElementById('s-hot').textContent='AI';
+  document.getElementById('s-fund').textContent='$14B+';
+  setSt('demo','#3b82f6','Showing sample stories — fetching live data…');
+  renderView();
+  fetchStories();
+}
+init();
+</script>
+</body>
+</html>
