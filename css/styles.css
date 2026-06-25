@@ -623,11 +623,28 @@ nav {
   flex: 1;
 }
 
+.tools-card__links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 6px;
+}
+
 .tools-card__cta {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.82rem;
   font-weight: 500;
-  margin-top: 6px;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.tools-card__cta:hover {
+  opacity: 0.7;
+}
+
+.tools-card__cta--secondary {
+  color: #888 !important;
+  font-weight: 400;
 }
 
 /* Explorer — cobalt violet */
