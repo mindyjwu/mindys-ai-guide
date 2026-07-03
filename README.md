@@ -1,99 +1,43 @@
 # Mindy's AI Guide
 
-A website that teaches non-technical people how to use AI (Claude) for everyday tasks — emails, documents, planning, and more.
+A website that teaches non-technical people how to use AI for everyday tasks — emails, documents, planning, hard conversations. No jargon, no tech background needed: short guides, copy-paste prompts you can try immediately, and a built-in "Ask the guide" chat powered by Claude.
 
-**Live site:** [your-url-here.vercel.app](https://your-url-here.vercel.app)
+**Live site:** [mindys-ai-guide.vercel.app](https://mindys-ai-guide.vercel.app)
 
----
+## Screenshots
 
-## Folder Structure
+![Homepage — AI that finally makes sense for you](docs/screenshot-home.png)
 
-```
-mindys-ai-guide/
-├── index.html          ← main page
-├── css/
-│   └── styles.css      ← all styles
-├── js/
-│   └── main.js         ← interactions (email form, video embeds, nav)
-├── assets/             ← images, og-image, your photo
-└── README.md
-```
+![Try-it-yourself prompt library](docs/screenshot-videos.png)
 
----
+## What's on the site
 
-## Local Development
+- **Guides by audience** — separate tracks for explorers, creators, and readers
+- **Prompt library** — real prompts for everyday situations, ready to paste into Claude
+- **Ask the guide** — an embedded chat assistant that answers AI questions in plain English
+- **[Explore Art with AI](https://mindys-ai-guide.vercel.app/explore-art.html)** — browsing MoMA's open-access collection with AI
+- **[Quick Research prototype](https://mindys-ai-guide.vercel.app/research.html)** — a 7-screen user research flow on how people perceive AI, misinformation, and trust
+- **SIGNAL** — an AI innovation feed
 
-No build tools needed. Just open `index.html` in your browser, or use VS Code's Live Server extension for auto-reload:
+## Tech stack
 
-1. Install [VS Code](https://code.visualstudio.com/)
-2. Install the **Live Server** extension
-3. Right-click `index.html` → "Open with Live Server"
+- Plain HTML, CSS, and JavaScript — no framework, no build step
+- Vercel serverless functions (`api/`) calling the [Claude API](https://docs.claude.com) for the chat features
+- Python script (`scripts/`) for filtering MoMA's open dataset
+- Deployed on Vercel
 
----
+## Why I built it
 
-## Deploy to Vercel (free)
+I work in consulting, and my parents kept asking me whether AI was going to take their jobs. This site is my answer: AI isn't here to replace people — it's here to help them do their jobs better. Everything on the site is written for someone with zero technical background who wants to see that firsthand.
 
-1. Push this repo to GitHub (make it public)
-2. Go to [vercel.com](https://vercel.com) → "Add New Project"
-3. Import your GitHub repo
-4. Click Deploy — that's it
+Built with [Claude Code](https://claude.com/claude-code).
 
-Every time you `git push`, Vercel auto-deploys. No config needed.
+## Running locally
 
----
+No build tools needed — open `index.html` in a browser, or serve the folder:
 
-## How to Add a Real Video
-
-When your first YouTube video is live:
-
-1. Copy the YouTube video ID (the part after `?v=` in the URL)
-2. Open `index.html`
-3. Find the first `.video-card` and update `data-youtube="YOUR_VIDEO_ID"`:
-
-```html
-<a href="#" class="video-card" data-youtube="dQw4w9WgXcQ">
+```bash
+python3 -m http.server 8080
 ```
 
-The JS in `main.js` handles the rest — clicking the card will embed the video.
-
----
-
-## How to Add Your Photo
-
-1. Add a photo file to `assets/mindy.jpg`
-2. In `index.html`, find the `about-avatar` div and replace it:
-
-```html
-<img src="assets/mindy.jpg" alt="Mindy Wu" style="width:100%;border-radius:20px;object-fit:cover;aspect-ratio:1;">
-```
-
----
-
-## How to Hook Up the Email Form
-
-The form in `js/main.js` is ready — just add your Beehiiv or Mailchimp endpoint.
-
-**Beehiiv** (recommended — cleaner UX):
-1. Create a free account at [beehiiv.com](https://beehiiv.com)
-2. Go to Settings → API → copy your publication ID and API key
-3. In `js/main.js`, replace the TODO comment with:
-
-```js
-await fetch('https://api.beehiiv.com/v2/publications/YOUR_PUB_ID/subscriptions', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer YOUR_API_KEY' },
-  body: JSON.stringify({ email, reactivate_existing: true, send_welcome_email: true })
-});
-```
-
----
-
-## TODO Checklist
-
-- [ ] Record and upload first video
-- [ ] Add `data-youtube="..."` to first video card
-- [ ] Add your photo to `assets/`
-- [ ] Add `og:image` meta tag with a screenshot
-- [ ] Hook up Beehiiv/Mailchimp to email form
-- [ ] Buy a custom domain (optional but worth it)
-- [ ] Add Google Analytics or Plausible (optional)
+The chat features need an `ANTHROPIC_API_KEY` environment variable and run as Vercel functions (`vercel dev`).
