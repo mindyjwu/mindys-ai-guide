@@ -32,7 +32,10 @@
 <!-- ===================== NAV ===================== -->
 <nav>
   <a href="#" class="nav-logo">Mindy<span>'s AI Guide</span></a>
-  <ul class="nav-links">
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
     <li><a href="#feedback">Feedback</a></li>
     <li><a href="explore-art.html" style="color: #6B3FA8; font-weight: 500;">For Explorer ✦</a></li>
     <li><a href="creator.html" style="color: #1A4FCC; font-weight: 500;">For Creator ✦</a></li>
@@ -97,7 +100,7 @@
 
 <!-- ===================== TRY IT ===================== -->
 <section class="try-section" id="try">
-  <div class="try-inner">
+  <div class="try-inner reveal">
     <div>
       <div class="section-label">Try It Yourself</div>
       <h2 class="section-title">Copy a prompt. Paste it into Claude. See what happens.</h2>
@@ -106,66 +109,66 @@
     </div>
 
     <div class="prompt-cards">
-      <a href="https://claude.ai" target="_blank" rel="noopener" class="prompt-card">
+      <button type="button" class="prompt-card" data-prompt="Help me write a polite but firm email to my landlord about [issue]. I want to sound professional.">
         <div class="prompt-icon" aria-hidden="true">✉️</div>
         <div>
           <div class="prompt-title">Write a follow-up email</div>
           <div class="prompt-text">"Help me write a polite but firm email to my landlord about [issue]. I want to sound professional."</div>
         </div>
-        <div class="prompt-arrow" aria-hidden="true">→</div>
-      </a>
+        <div class="prompt-arrow" aria-hidden="true">Copy</div>
+      </button>
 
-      <a href="https://claude.ai" target="_blank" rel="noopener" class="prompt-card">
+      <button type="button" class="prompt-card" data-prompt="I got this letter from [insurance/doctor/bank]. Can you explain what it means in simple English?">
         <div class="prompt-icon" aria-hidden="true">📄</div>
         <div>
           <div class="prompt-title">Decode a confusing letter</div>
           <div class="prompt-text">"I got this letter from [insurance/doctor/bank]. Can you explain what it means in simple English?"</div>
         </div>
-        <div class="prompt-arrow" aria-hidden="true">→</div>
-      </a>
+        <div class="prompt-arrow" aria-hidden="true">Copy</div>
+      </button>
 
-      <a href="https://claude.ai" target="_blank" rel="noopener" class="prompt-card">
+      <button type="button" class="prompt-card" data-prompt="I have 3 days in [city] with a budget of $[X]. Plan a simple itinerary for me.">
         <div class="prompt-icon" aria-hidden="true">🗓️</div>
         <div>
           <div class="prompt-title">Plan a trip or event</div>
           <div class="prompt-text">"I have 3 days in [city] with a budget of $[X]. Plan a simple itinerary for me."</div>
         </div>
-        <div class="prompt-arrow" aria-hidden="true">→</div>
-      </a>
+        <div class="prompt-arrow" aria-hidden="true">Copy</div>
+      </button>
 
-      <a href="https://claude.ai" target="_blank" rel="noopener" class="prompt-card">
+      <button type="button" class="prompt-card" data-prompt="I need to talk to [person] about [topic]. Help me figure out what to say without starting a fight.">
         <div class="prompt-icon" aria-hidden="true">💬</div>
         <div>
           <div class="prompt-title">Practice a hard conversation</div>
           <div class="prompt-text">"I need to talk to [person] about [topic]. Help me figure out what to say without starting a fight."</div>
         </div>
-        <div class="prompt-arrow" aria-hidden="true">→</div>
-      </a>
+        <div class="prompt-arrow" aria-hidden="true">Copy</div>
+      </button>
 
-      <a href="https://claude.ai" target="_blank" rel="noopener" class="prompt-card">
+      <button type="button" class="prompt-card" data-prompt="My kid keeps talking about MCP and AI agents. Can you explain what that actually means in simple terms a parent would get?">
         <div class="prompt-icon" aria-hidden="true">🤖</div>
         <div>
           <div class="prompt-title">Understand AI in plain English</div>
           <div class="prompt-text">"My kid keeps talking about MCP and AI agents. Can you explain what that actually means in simple terms a parent would get?"</div>
         </div>
-        <div class="prompt-arrow" aria-hidden="true">→</div>
-      </a>
+        <div class="prompt-arrow" aria-hidden="true">Copy</div>
+      </button>
 
-      <a href="https://claude.ai" target="_blank" rel="noopener" class="prompt-card">
+      <button type="button" class="prompt-card" data-prompt="I've been having [symptom] for a few days. Can you help me understand what might be going on and whether I should see a doctor?">
         <div class="prompt-icon" aria-hidden="true">🩺</div>
         <div>
           <div class="prompt-title">Talk through a health concern</div>
           <div class="prompt-text">"I've been having [symptom] for a few days. Can you help me understand what might be going on and whether I should see a doctor?"</div>
         </div>
-        <div class="prompt-arrow" aria-hidden="true">→</div>
-      </a>
+        <div class="prompt-arrow" aria-hidden="true">Copy</div>
+      </button>
     </div>
   </div>
 </section>
 
 <!-- ===================== ASK THE GUIDE ===================== -->
 <section class="ask-section" id="ask">
-  <div class="ask-inner">
+  <div class="ask-inner reveal">
     <div class="section-label">Ask the Guide</div>
     <h2 class="section-title">Not sure where to start? Just ask.</h2>
     <p class="section-sub">Powered by the Anthropic API — ask anything about using AI in your daily life and get a real answer.</p>
@@ -191,7 +194,7 @@
 
 <!-- ===================== SPECIAL TOOLS ===================== -->
 <section class="tools-section">
-  <div class="tools-inner">
+  <div class="tools-inner reveal">
     <p class="tools-eyebrow">Want to go deeper? These tools are made for specific interests.</p>
     <div class="tools-cards">
 
@@ -228,20 +231,21 @@
 
 <!-- ===================== ABOUT ===================== -->
 <section class="about-section" id="about">
-  <div class="about-inner">
+  <div class="about-inner reveal">
     <img src="assets/mindy.jpg" alt="Mindy Wu" class="about-photo" onerror="this.style.display='none';document.getElementById('about-avatar-fallback').style.display='flex';">
     <div class="about-avatar" id="about-avatar-fallback" aria-hidden="true" style="display:none;">M</div>
     <div>
       <div class="about-label">About</div>
       <h2 class="about-title">Hi, I'm Mindy.</h2>
       <p class="about-text">By day I build and deploy RAG pipelines and AI systems for Fortune 500 media companies. By night I explain it to my parents — which turned into this.</p>
+      <a href="https://mindy-portfolio.vercel.app" target="_blank" rel="noopener" class="about-portfolio-link">See my full portfolio →</a>
     </div>
   </div>
 </section>
 
 <!-- ===================== PROJECTS ===================== -->
 <section class="tools-section" id="projects">
-  <div class="tools-inner">
+  <div class="tools-inner reveal">
     <p class="tools-eyebrow">Other things I'm building</p>
     <div class="tools-cards">
 
@@ -282,8 +286,8 @@
 </section>
 
 <!-- ===================== FEEDBACK ===================== -->
-<section class="feedback-section" id="feedback">2
-  <div class="feedback-box">
+<section class="feedback-section" id="feedback">
+  <div class="feedback-box reveal">
     <div class="feedback-icon" aria-hidden="true">💬</div>
     <h2>Got a question or idea?</h2>
     <p>Drop it here — no email needed. What would you want to see next, or what are you still confused about?</p>
