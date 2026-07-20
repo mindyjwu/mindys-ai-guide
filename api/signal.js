@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://mindys-ai-guide.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
 
-  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || process.env.mindy_secret_key });
 
   try {
     const response = await client.messages.create({

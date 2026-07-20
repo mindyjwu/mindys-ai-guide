@@ -27,12 +27,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'messages required' });
   }
 
-  const apiKey = process.env.mindy_secret_key;
+  const apiKey = process.env.mindy_secret_key || process.env.ANTHROPIC_API_KEY;
 
   if (!apiKey) {
     return res.status(500).json({
       reply: 'API key not configured.',
-      error: 'mindy_secret_key is not set in Vercel environment variables',
+      error: 'ANTHROPIC_API_KEY (or mindy_secret_key) is not set in Vercel environment variables',
     });
   }
 
