@@ -14,6 +14,8 @@ It teaches non-technical people how to actually use Claude for the stuff that's 
 - **Explore Art with AI** — browsing MoMA's open-access collection by mood instead of by artist name
 - **Quick Research prototype** — a 7-screen flow probing how people actually perceive AI, misinformation, and trust
 - **SIGNAL** — a lightweight AI-news feed
+- **About page** (`about.html`) — the "why" behind the site: AI as a talent amplifier, not a replacement
+- **My projects** — Global Explorer, GenAI, and Stock Advisor are surfaced right on the homepage, since they're the projects I'm actually actively building
 
 ## Stack
 
@@ -47,4 +49,5 @@ Push to GitHub, import the repo in Vercel, add `ANTHROPIC_API_KEY`, deploy. Ever
 Being upfront about this rather than hiding it:
 
 - The feedback form on the homepage posts to a placeholder Formspree endpoint — needs a real form ID before it actually collects anything.
-- `research.html` and `signal.html` both work but aren't linked from the nav yet, so they're only reachable by direct URL.
+- `research.html` works but isn't linked from the nav yet, so it's only reachable by direct URL. `signal.html` is now linked from the nav.
+- The "Other things I'm building" section at the bottom of the homepage is intentionally sparse right now — just a placeholder card, waiting on the next real project.
