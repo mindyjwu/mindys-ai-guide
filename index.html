@@ -36,10 +36,12 @@
     <span></span><span></span><span></span>
   </button>
   <ul class="nav-links" id="nav-links">
+    <li><a href="about.html">About</a></li>
     <li><a href="#feedback">Feedback</a></li>
     <li><a href="explore-art.html" style="color: #6B3FA8; font-weight: 500;">For Explorer ✦</a></li>
     <li><a href="creator.html" style="color: #1A4FCC; font-weight: 500;">For Creator ✦</a></li>
     <li><a href="reader.html" style="color: #1A7A4A; font-weight: 500;">For Reader ✦</a></li>
+    <li><a href="signal.html" style="color: #946200; font-weight: 500;">SIGNAL ✦</a></li>
     <li><a href="https://claude.ai" target="_blank" rel="noopener" class="nav-cta">Open Claude →</a></li>
   </ul>
 </nav>
@@ -192,61 +194,10 @@
   </div>
 </section>
 
-<!-- ===================== SPECIAL TOOLS ===================== -->
-<section class="tools-section">
-  <div class="tools-inner reveal">
-    <p class="tools-eyebrow">Want to go deeper? These tools are made for specific interests.</p>
-    <div class="tools-cards">
-
-      <!-- Explorer -->
-      <a href="explore-art.html" class="tools-card tools-card--explorer">
-        <div class="tools-card__icon">🎨</div>
-        <div class="tools-card__tag">For art lovers &amp; curious explorers</div>
-        <div class="tools-card__title">For Explorer ✦</div>
-        <div class="tools-card__desc">Tell it how you're feeling and it finds real artworks that match your mood — like having a museum guide in your pocket.</div>
-        <div class="tools-card__cta">Explore art →</div>
-      </a>
-
-      <!-- Creator -->
-      <a href="creator.html" class="tools-card tools-card--creator">
-        <div class="tools-card__icon">🎛️</div>
-        <div class="tools-card__tag">For independent musicians &amp; producers</div>
-        <div class="tools-card__title">For Creator ✦</div>
-        <div class="tools-card__desc">A creative sounding board when you're stuck, second-guessing a mix, or just need someone to think out loud with.</div>
-        <div class="tools-card__cta">Start a session →</div>
-      </a>
-
-      <!-- Reader -->
-      <a href="reader.html" class="tools-card tools-card--reader">
-        <div class="tools-card__icon">📚</div>
-        <div class="tools-card__tag">For book lovers &amp; curious readers</div>
-        <div class="tools-card__title">For Reader ✦</div>
-        <div class="tools-card__desc">Tell it how you're feeling — not what genre you want — and it finds the right book for exactly this moment in your life.</div>
-        <div class="tools-card__cta">Find a book →</div>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===================== ABOUT ===================== -->
-<section class="about-section" id="about">
-  <div class="about-inner reveal">
-    <img src="assets/mindy.jpg" alt="Mindy Wu" class="about-photo" onerror="this.style.display='none';document.getElementById('about-avatar-fallback').style.display='flex';">
-    <div class="about-avatar" id="about-avatar-fallback" aria-hidden="true" style="display:none;">M</div>
-    <div>
-      <div class="about-label">About</div>
-      <h2 class="about-title">Hi, I'm Mindy.</h2>
-      <p class="about-text">By day I build and deploy RAG pipelines and AI systems for Fortune 500 media companies. By night I explain it to my parents — which turned into this.</p>
-      <a href="https://mindy-portfolio.vercel.app" target="_blank" rel="noopener" class="about-portfolio-link">See my full portfolio →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== PROJECTS ===================== -->
+<!-- ===================== MY PROJECTS (top showcase) ===================== -->
 <section class="tools-section" id="projects">
   <div class="tools-inner reveal">
-    <p class="tools-eyebrow">Other things I'm building</p>
+    <p class="tools-eyebrow">What I'm building</p>
     <div class="tools-cards">
 
       <!-- Global Explorer -->
@@ -283,6 +234,77 @@
           <a href="https://github.com/mindyjwu/stock_advisor" target="_blank" rel="noopener" class="tools-card__cta tools-card__cta--secondary">GitHub</a>
         </div>
       </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GUIDE TOOLS (Explorer/Creator/Reader/Signal) ===================== -->
+<section class="tools-section">
+  <div class="tools-inner reveal">
+    <p class="tools-eyebrow">A few themed extras, built into the guide</p>
+    <div class="tools-cards">
+
+      <!-- Explorer -->
+      <a href="explore-art.html" class="tools-card tools-card--explorer">
+        <div class="tools-card__icon">🎨</div>
+        <div class="tools-card__tag">For art lovers &amp; curious explorers</div>
+        <div class="tools-card__title">For Explorer ✦</div>
+        <div class="tools-card__desc">Tell it how you're feeling and it finds real artworks that match your mood — like having a museum guide in your pocket.</div>
+        <div class="tools-card__cta">Explore art →</div>
+      </a>
+
+      <!-- Creator -->
+      <a href="creator.html" class="tools-card tools-card--creator">
+        <div class="tools-card__icon">🎛️</div>
+        <div class="tools-card__tag">For independent musicians &amp; producers</div>
+        <div class="tools-card__title">For Creator ✦</div>
+        <div class="tools-card__desc">A creative sounding board when you're stuck, second-guessing a mix, or just need someone to think out loud with.</div>
+        <div class="tools-card__cta">Start a session →</div>
+      </a>
+
+      <!-- Reader -->
+      <a href="reader.html" class="tools-card tools-card--reader">
+        <div class="tools-card__icon">📚</div>
+        <div class="tools-card__tag">For book lovers &amp; curious readers</div>
+        <div class="tools-card__title">For Reader ✦</div>
+        <div class="tools-card__desc">Tell it how you're feeling — not what genre you want — and it finds the right book for exactly this moment in your life.</div>
+        <div class="tools-card__cta">Find a book →</div>
+      </a>
+
+      <!-- Signal -->
+      <a href="signal.html" class="tools-card tools-card--signal">
+        <div class="tools-card__icon">📡</div>
+        <div class="tools-card__tag">For anyone tracking where AI is headed</div>
+        <div class="tools-card__title">SIGNAL ✦</div>
+        <div class="tools-card__desc">Live AI and tech intelligence across biotech, hardware, media, finance, and a dozen more industries.</div>
+        <div class="tools-card__cta">See the feed →</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="about-section" id="about">
+  <div class="about-inner reveal">
+    <img src="assets/mindy.jpg" alt="Mindy Wu" class="about-photo" onerror="this.style.display='none';document.getElementById('about-avatar-fallback').style.display='flex';">
+    <div class="about-avatar" id="about-avatar-fallback" aria-hidden="true" style="display:none;">M</div>
+    <div>
+      <div class="about-label">About</div>
+      <h2 class="about-title">Hi, I'm Mindy.</h2>
+      <p class="about-text">By day I build and deploy RAG pipelines and AI systems for Fortune 500 media companies. By night I explain it to my parents — which turned into this.</p>
+      <a href="about.html" class="about-portfolio-link">Why I build this →</a>
+      <a href="https://mindy-portfolio.vercel.app" target="_blank" rel="noopener" class="about-portfolio-link" style="margin-left: 1.5rem;">See my full portfolio →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== OTHER THINGS I'M BUILDING ===================== -->
+<section class="tools-section" id="other-projects">
+  <div class="tools-inner reveal">
+    <p class="tools-eyebrow">Other things I'm building</p>
+    <div class="tools-cards">
 
       <!-- Placeholder — replace with your next project -->
       <div class="tools-card" style="opacity: 0.4; cursor: default; border-style: dashed;">

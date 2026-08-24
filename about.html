@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>About — Mindy's AI Guide</title>
+  <meta name="description" content="Why I build this: AI doesn't replace talent, it amplifies it. Who I am, what I build, and the idea behind it.">
+  <meta name="author" content="Mindy Wu">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <meta property="og:title" content="About — Mindy's AI Guide">
+  <meta property="og:description" content="AI doesn't replace talent, it amplifies it. Why I build this, and who I am.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mindys-ai-guide.vercel.app/about.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* ============================================================
+       ABOUT PAGE
+       ============================================================ */
+
+    .about-page-hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 2rem 40px;
+      text-align: center;
+    }
+
+    .about-page-hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.15;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+    }
+
+    .about-page-hero h1 em { font-style: italic; color: var(--clay); }
+
+    .about-page-hero .hero-actions { justify-content: center; margin-top: 2rem; }
+
+    /* Essay */
+    .essay-section { background: var(--warm-white); border-top: 1px solid var(--border); }
+
+    .essay-inner { max-width: 640px; margin: 0 auto; padding: 72px 2rem; }
+
+    .essay-inner h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(24px, 3vw, 32px);
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .essay-inner p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      margin-bottom: 1.25rem;
+    }
+
+    .essay-inner p:last-child { margin-bottom: 0; }
+
+    /* Pull-quote / aside */
+    .essay-aside {
+      background: var(--butter-light);
+      border-left: 3px solid var(--butter);
+      border-radius: 8px;
+      padding: 1.5rem 1.75rem;
+      margin: 2rem 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    .essay-aside strong { color: var(--ink); }
+
+    .essay-aside .video-slot {
+      margin-top: 1rem;
+      font-size: 13px;
+      color: var(--ink-muted);
+    }
+
+    /* See it in action */
+    .see-it-section { padding: 72px 2rem; }
+
+    .see-it-inner { max-width: 1100px; margin: 0 auto; }
+
+    .see-it-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .see-it-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .see-it-links a:hover { border-color: var(--clay); color: var(--clay); }
+
+    @media (max-width: 640px) {
+      .about-page-hero { padding: 60px 1.5rem 32px; }
+      .essay-inner { padding: 48px 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav>
+  <a href="index.html" class="nav-logo">Mindy<span>'s AI Guide</span></a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="about.html" class="nav-active">About</a></li>
+    <li><a href="index.html#feedback">Feedback</a></li>
+    <li><a href="explore-art.html" style="color: #6B3FA8; font-weight: 500;">For Explorer ✦</a></li>
+    <li><a href="creator.html" style="color: #1A4FCC; font-weight: 500;">For Creator ✦</a></li>
+    <li><a href="reader.html" style="color: #1A7A4A; font-weight: 500;">For Reader ✦</a></li>
+    <li><a href="signal.html" style="color: #946200; font-weight: 500;">SIGNAL ✦</a></li>
+    <li><a href="https://claude.ai" target="_blank" rel="noopener" class="nav-cta">Open Claude →</a></li>
+  </ul>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section class="about-page-hero">
+  <div class="hero-tag">✦ Why I build this</div>
+  <h1>AI doesn't replace<br><em>talent</em>. It amplifies it.</h1>
+  <p class="hero-sub" style="margin-left:auto;margin-right:auto;">
+    Everything on this site — the guide, the themed tools, the side projects — starts from that one idea.
+  </p>
+  <div class="hero-actions">
+    <a href="index.html#projects" class="btn-primary">See what I've built →</a>
+    <a href="https://mindy-portfolio.vercel.app" target="_blank" rel="noopener" class="btn-secondary">Full portfolio →</a>
+  </div>
+</section>
+
+<!-- ===================== BIO ===================== -->
+<section class="about-section" id="bio">
+  <div class="about-inner">
+    <img src="assets/mindy.jpg" alt="Mindy Wu" class="about-photo" onerror="this.style.display='none';document.getElementById('about-avatar-fallback').style.display='flex';">
+    <div class="about-avatar" id="about-avatar-fallback" aria-hidden="true" style="display:none;">M</div>
+    <div>
+      <div class="about-label">Who I am</div>
+      <h2 class="about-title">Hi, I'm Mindy.</h2>
+      <p class="about-text">By day I build and deploy RAG pipelines and AI systems for Fortune 500 media companies. By night I explain it to my parents — which turned into this. I studied CS &amp; Data Science at NYU, and I've been building small AI tools on the side ever since — this guide, a few themed extras, and a handful of other projects.</p>
+      <a href="https://mindy-portfolio.vercel.app" target="_blank" rel="noopener" class="about-portfolio-link">See my full portfolio →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE IDEA (essay) ===================== -->
+<section class="essay-section">
+  <div class="essay-inner reveal">
+    <h2>The idea behind it</h2>
+    <p>I don't think AI replaces talent. I think it amplifies it.</p>
+    <p>The best musicians, writers, and thinkers I know already have something real to say — a voice, a point of view, an ear for what's right. What most of them don't have is the technical execution to get all of it out. AI closes that gap. It doesn't hand you taste or instinct; it hands you the tools to act on the taste and instinct you already have, faster, and often for the first time.</p>
+
+    <div class="essay-aside">
+      <strong>A favorite example of this:</strong> a musician who takes his own voice and layers it live, in real time, into full vocal harmony no single throat could produce alone — the raw talent was always there, the tool just let it fully out.
+      <div class="video-slot">
+        <!-- TODO(Mindy): drop in the YouTube link/embed for the vocal-looping highlight you had in mind here -->
+        Video link coming soon.
+      </div>
+    </div>
+
+    <p>That's the lens I build through. Every tool on this site — Explorer, Creator, Reader, Signal, the guide itself — starts from the same question: what's someone already capable of, that a good AI tool could help them actually do? And the projects I build outside the guide (Global Explorer, GenAI, Stock Advisor) are the same instinct pointed at problems I'm just personally curious about.</p>
+  </div>
+</section>
+
+<!-- ===================== SEE IT IN ACTION ===================== -->
+<section class="see-it-section">
+  <div class="see-it-inner reveal">
+    <div class="section-label">See it in action</div>
+    <h2 class="section-title">The idea, in practice</h2>
+    <div class="see-it-links">
+      <a href="index.html#try">Try a prompt yourself →</a>
+      <a href="explore-art.html">For Explorer ✦</a>
+      <a href="creator.html">For Creator ✦</a>
+      <a href="reader.html">For Reader ✦</a>
+      <a href="signal.html">SIGNAL ✦</a>
+      <a href="index.html#projects">My projects →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <p>
+    Made with curiosity by <a href="https://linkedin.com/in/mindyjwu/" target="_blank" rel="noopener">Mindy Wu</a>
+    &nbsp;·&nbsp;
+    Powered by <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> by Anthropic
+    &nbsp;·&nbsp;
+    <a href="index.html">Back to guide ↑</a>
+  </p>
+</footer>
+
+<!-- Scripts -->
+<script src="js/main.js"></script>
+<!-- Vercel Web Analytics -->
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

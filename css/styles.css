@@ -640,6 +640,17 @@ nav {
   box-shadow: 0 8px 32px rgba(26, 122, 74, 0.15);
 }
 
+/* Signal — burnt amber */
+.tools-card--signal {
+  border-top: 3px solid #946200;
+}
+.tools-card--signal .tools-card__tag  { color: #946200; }
+.tools-card--signal .tools-card__cta  { color: #946200; }
+.tools-card--signal:hover {
+  background: #FFF7E6;
+  box-shadow: 0 8px 32px rgba(148, 98, 0, 0.15);
+}
+
 @media (max-width: 768px) {
   .tools-cards { grid-template-columns: 1fr; }
 }
