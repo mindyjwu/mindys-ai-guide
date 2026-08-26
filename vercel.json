@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/", "destination": "https://mindy-portfolio.vercel.app", "permanent": false },
+    { "source": "/index.html", "destination": "https://mindy-portfolio.vercel.app", "permanent": false }
+  ]
+}
