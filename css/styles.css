@@ -885,44 +885,6 @@ textarea:focus-visible {
   font-style: italic;
 }
 
-/* Video recommendation card inside chat */
-.guide-video-rec {
-  margin-top: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: var(--butter-light);
-  border: 1px solid rgba(185, 205, 217, 0.4);
-  border-radius: 12px;
-  font-size: 0.8rem;
-}
-
-.guide-video-rec__label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--ink-soft);
-  margin-bottom: 0.3rem;
-}
-
-.guide-video-rec__title {
-  font-weight: 500;
-  color: var(--ink);
-  margin-bottom: 0.4rem;
-  line-height: 1.4;
-}
-
-.guide-video-rec__link {
-  color: var(--clay);
-  font-weight: 500;
-  text-decoration: none;
-  font-size: 0.8rem;
-}
-
-.guide-video-rec__link:hover {
-  color: var(--silver-dark);
-  text-decoration: underline;
-}
-
 .guide-chat__input-row {
   display: flex;
   align-items: center;

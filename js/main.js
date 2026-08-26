@@ -86,18 +86,6 @@ function createChat(messagesId, inputId, sendId) {
     return msg;
   }
 
-  function appendVideoRec(video) {
-    if (!video) return;
-    const card = document.createElement('div');
-    card.className = 'guide-video-rec';
-    card.innerHTML = `
-      <div class="guide-video-rec__label">📹 Watch this</div>
-      <div class="guide-video-rec__title">${video.title}</div>
-      <a class="guide-video-rec__link" href="#video-${video.id}">Go to video →</a>`;
-    messagesEl.appendChild(card);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
-
   async function send() {
     const text = inputEl.value.trim();
     if (!text) return;
@@ -122,9 +110,6 @@ function createChat(messagesId, inputId, sendId) {
       if (data.reply) {
         appendBubble('ai', data.reply);
         history.push({ role: 'assistant', content: data.reply });
-      }
-      if (data.video) {
-        appendVideoRec(data.video);
       }
     } catch {
       loading.remove();

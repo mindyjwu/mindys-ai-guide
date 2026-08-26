@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO -->
-  <title>Mindy's AI Guide — AI for Everyone</title>
-  <meta name="description" content="Short, honest guides that show real people — not engineers — how to use AI for the stuff that actually matters in daily life.">
+  <title>Mindy's Portfolio</title>
+  <meta name="description" content="Mindy Wu's personal site — AI tools, creative experiments, and the mini projects she's been building.">
   <meta name="author" content="Mindy Wu">
 
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
 
   <!-- Open Graph (for link previews on WhatsApp, iMessage, LinkedIn) -->
-  <meta property="og:title" content="Mindy's AI Guide — AI for Everyone">
-  <meta property="og:description" content="No tech background needed. Learn how to use AI for emails, documents, planning, and more.">
+  <meta property="og:title" content="Mindy's Portfolio">
+  <meta property="og:description" content="Mindy Wu's personal site — AI tools, creative experiments, and the mini projects she's been building.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mindy-portfolio.vercel.app">
   <meta property="og:image" content="https://mindy-portfolio.vercel.app/assets/og-image.png">
@@ -31,7 +31,7 @@
 
 <!-- ===================== NAV ===================== -->
 <nav>
-  <a href="#" class="nav-logo">Mindy<span>'s AI Guide</span></a>
+  <a href="#" class="nav-logo">Mindy<span>'s Portfolio</span></a>
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
     <span></span><span></span><span></span>
   </button>
@@ -54,7 +54,7 @@
       <p class="hero-sub">Short, honest guides that show real people — not engineers — how to use AI for the stuff that actually matters in daily life.</p>
       <div class="hero-actions">
         <a href="#try" class="btn-primary">Try a prompt yourself →</a>
-        <a href="#ask" class="btn-secondary">Ask the guide →</a>
+        <a href="#ask" class="btn-secondary">Ask me anything →</a>
       </div>
     </div>
 
@@ -258,17 +258,17 @@
   </div>
 </section>
 
-<!-- ===================== ASK THE GUIDE ===================== -->
+<!-- ===================== ASK ME ANYTHING ===================== -->
 <section class="ask-section" id="ask">
   <div class="ask-inner reveal">
-    <div class="section-label">Ask the Guide</div>
-    <h2 class="section-title">Not sure where to start? Just ask.</h2>
-    <p class="section-sub">Powered by the Anthropic API — ask anything about using AI in your daily life and get a real answer.</p>
+    <div class="section-label">Ask Me Anything</div>
+    <h2 class="section-title">Curious about something? Just ask.</h2>
+    <p class="section-sub">Powered by Claude — ask me about this site, what I'm building, or what I'm into.</p>
 
     <div class="guide-chat" id="guide-chat">
       <div class="guide-chat__messages" id="guide-chat-messages">
         <div class="guide-msg guide-msg--ai">
-          <div class="guide-msg__bubble">Hi! Ask me anything about using Claude — like "how do I write a professional email?" or "what if I get a confusing letter from my insurance?" I'll point you in the right direction.</div>
+          <div class="guide-msg__bubble">Hi! Ask me anything about this site, the things I'm building, or who I am.</div>
         </div>
       </div>
       <div class="guide-chat__input-row">
@@ -276,8 +276,8 @@
           type="text"
           class="guide-chat__input"
           id="guide-chat-input"
-          placeholder="What do you want to do with Claude?"
-          aria-label="Ask the guide a question" />
+          placeholder="Ask me anything…"
+          aria-label="Ask a question" />
         <button class="guide-chat__send" id="guide-chat-send" aria-label="Send">→</button>
       </div>
     </div>
@@ -337,11 +337,11 @@
 </section>
 
 <!-- ===================== FLOAT BUTTON ===================== -->
-<button class="claude-float" id="claude-float-btn" aria-label="Ask Mindy's guide" aria-expanded="false">
+<button class="claude-float" id="claude-float-btn" aria-label="Ask me anything" aria-expanded="false">
   <span class="claude-float-icon" aria-hidden="true">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
   </span>
-  <span class="claude-float-label">Ask the guide</span>
+  <span class="claude-float-label">Ask me anything</span>
 </button>
 
 <!-- ===================== FLOATING CHAT PANEL ===================== -->
@@ -349,13 +349,13 @@
   <div class="float-panel__header">
     <div class="float-panel__title">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      Ask the Guide
+      Ask Me Anything
     </div>
     <button class="float-panel__close" id="float-panel-close" aria-label="Close chat">✕</button>
   </div>
   <div class="guide-chat__messages" id="float-chat-messages">
     <div class="guide-msg guide-msg--ai">
-      <div class="guide-msg__bubble">Hi! Ask me anything about using Claude for everyday tasks.</div>
+      <div class="guide-msg__bubble">Hi! Ask me anything about this site, the things I'm building, or who I am.</div>
     </div>
   </div>
   <div class="guide-chat__input-row">
@@ -364,7 +364,7 @@
       class="guide-chat__input"
       id="float-chat-input"
       placeholder="Ask a question…"
-      aria-label="Ask the guide a question" />
+      aria-label="Ask a question" />
     <button class="guide-chat__send" id="float-chat-send" aria-label="Send">→</button>
   </div>
 </div>
