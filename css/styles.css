@@ -20,6 +20,10 @@
   --ink-soft: #3E5A6E;
   --ink-muted: #7B96A3;
   --border: rgba(22, 35, 46, 0.1);
+  --silver: #B7C4CC;
+  --silver-light: #EDF2F4;
+  --silver-dark: #7C8E99;
+  --silver-shine: linear-gradient(135deg, #CBD8DE 0%, #F2F6F8 45%, #AFC0C9 100%);
 }
 
 html { scroll-behavior: smooth; }
@@ -89,7 +93,7 @@ nav {
   transition: color 0.2s;
 }
 
-.nav-links a:hover { color: var(--clay); }
+.nav-links a:hover { color: var(--silver-dark); }
 
 .nav-links a.nav-active { color: var(--clay); }
 
@@ -190,7 +194,11 @@ nav {
   transition: background 0.2s, transform 0.1s;
 }
 
-.btn-primary:hover { background: var(--clay-dark); transform: translateY(-1px); }
+.btn-primary:hover {
+  background: var(--silver-shine);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
 
 .btn-secondary {
   color: var(--ink-soft);
@@ -202,7 +210,7 @@ nav {
   transition: color 0.2s;
 }
 
-.btn-secondary:hover { color: var(--clay); }
+.btn-secondary:hover { color: var(--silver-dark); }
 
 /* === CHAT MOCKUP === */
 .hero-visual { position: relative; }
@@ -401,7 +409,7 @@ nav {
   appearance: none;
 }
 
-.prompt-card:hover { border-color: var(--clay); transform: translateX(4px); }
+.prompt-card:hover { border-color: var(--silver-dark); transform: translateX(4px); }
 
 .prompt-icon  { font-size: 22px; flex-shrink: 0; margin-top: 2px; width: 32px; text-align: center; }
 .prompt-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
@@ -423,7 +431,7 @@ nav {
   white-space: nowrap;
 }
 
-.prompt-card:hover .prompt-arrow { background: var(--clay); color: #fff; border-color: var(--clay); }
+.prompt-card:hover .prompt-arrow { background: var(--silver-shine); color: var(--ink); border-color: var(--silver-dark); }
 
 .prompt-card.is-copied { border-color: var(--sage); background: var(--sage-light); }
 .prompt-card.is-copied .prompt-arrow {
@@ -506,7 +514,7 @@ nav {
   opacity: 0.9;
 }
 
-.about-portfolio-link:hover { opacity: 1; }
+.about-portfolio-link:hover { opacity: 1; color: var(--silver-light); }
 
 .about-creds { display: flex; flex-direction: column; gap: 8px; margin-top: 1.5rem; }
 
@@ -717,7 +725,7 @@ nav {
   transition: background 0.2s;
 }
 
-.feedback-submit:hover    { background: var(--clay-dark); }
+.feedback-submit:hover    { background: var(--silver-shine); color: var(--ink); }
 .feedback-submit:disabled { background: var(--sage); cursor: default; }
 
 .feedback-thanks { font-size: 14px; color: var(--sage); margin-top: 0.5rem; min-height: 1.4em; }
@@ -745,10 +753,13 @@ nav {
 }
 
 .claude-float:hover {
-  background: #333;
+  background: var(--silver-shine);
+  color: var(--ink);
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(22, 35, 46, 0.3);
 }
+
+.claude-float:hover .claude-float-icon svg { stroke: var(--ink); }
 
 .claude-float-icon { display: flex; align-items: center; }
 
@@ -761,7 +772,7 @@ footer {
 
 footer p    { font-size: 13px; color: var(--ink-muted); }
 footer a    { color: var(--clay); text-decoration: none; }
-footer a:hover { text-decoration: underline; }
+footer a:hover { color: var(--silver-dark); text-decoration: underline; }
 
 /* === ANIMATIONS === */
 @keyframes fadeUp {
@@ -908,6 +919,7 @@ textarea:focus-visible {
 }
 
 .guide-video-rec__link:hover {
+  color: var(--silver-dark);
   text-decoration: underline;
 }
 
@@ -951,7 +963,8 @@ textarea:focus-visible {
 }
 
 .guide-chat__send:hover {
-  background: var(--clay-dark);
+  background: var(--silver-shine);
+  color: var(--ink);
 }
 
 .guide-chat__send:disabled {
