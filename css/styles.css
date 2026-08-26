@@ -664,6 +664,28 @@ nav {
   box-shadow: 0 8px 32px rgba(148, 98, 0, 0.15);
 }
 
+/* Film — cinema crimson */
+.tools-card--film {
+  border-top: 3px solid #B8283F;
+}
+.tools-card--film .tools-card__tag  { color: #B8283F; }
+.tools-card--film .tools-card__cta  { color: #B8283F; }
+.tools-card--film:hover {
+  background: #FCEEF0;
+  box-shadow: 0 8px 32px rgba(184, 40, 63, 0.15);
+}
+
+/* Score — deep teal */
+.tools-card--score {
+  border-top: 3px solid #0F6E6E;
+}
+.tools-card--score .tools-card__tag  { color: #0F6E6E; }
+.tools-card--score .tools-card__cta  { color: #0F6E6E; }
+.tools-card--score:hover {
+  background: #E7F6F5;
+  box-shadow: 0 8px 32px rgba(15, 110, 110, 0.15);
+}
+
 @media (max-width: 768px) {
   .tools-cards { grid-template-columns: 1fr; }
 }
