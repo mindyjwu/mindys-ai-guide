@@ -39,8 +39,11 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // CORS headers (so your HTML pages can call this)
-  res.setHeader('Access-Control-Allow-Origin', 'https://mindys-ai-guide.vercel.app');
+  // CORS headers (so your HTML pages can call this, on either live domain)
+  const ALLOWED_ORIGINS = ['https://mindys-ai-guide.vercel.app', 'https://mindy-portfolio.vercel.app'];
+  if (ALLOWED_ORIGINS.includes(req.headers.origin)) {
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  }
   res.setHeader('Access-Control-Allow-Methods', 'GET');
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || process.env.mindy_secret_key });
