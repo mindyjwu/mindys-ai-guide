@@ -271,18 +271,41 @@ function fbUrl(s){const seed=((s.company||'')+(s.industry||'')).replace(/\W/g,''
 function esc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 // localStorage cache
-function saveDay(st){try{localStorage.setItem('sig:'+TODAY,JSON.stringify(st));}catch(e){}}
+// Three sweeps a day store roughly 3x what the old 5-story fetch did, so the
+// archive is capped — otherwise saves start failing silently on quota.
+const ARCHIVE_DAYS=14;
+function sigKeys(){
+  const keys=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k&&k.indexOf('sig:')===0)keys.push(k);
+  }
+  return keys.sort().reverse();  // ISO dates sort lexically; newest first
+}
+function pruneArchive(){
+  try{sigKeys().slice(ARCHIVE_DAYS).forEach(k=>{try{localStorage.removeItem(k);}catch(e){}});}catch(e){}
+}
+function saveDay(st){
+  const payload=JSON.stringify(st);
+  try{localStorage.setItem('sig:'+TODAY,payload);pruneArchive();}
+  catch(e){
+    // Out of room: drop the oldest days and try once more.
+    pruneArchive();
+    try{localStorage.setItem('sig:'+TODAY,payload);}
+    catch(e2){console.warn('[signal] could not cache today\'s stories',e2);}
+  }
+}
 function loadDay(){try{const r=localStorage.getItem('sig:'+TODAY);return r?JSON.parse(r):null;}catch(e){return null;}}
 function loadArchive(){
   try{
     const days=[];
     for(let i=0;i<localStorage.length;i++){
       const k=localStorage.key(i);
-      if(k&&k.startsWith('sig:')&&k!=='sig:'+TODAY){
+      if(k&&k.indexOf('sig:')===0&&k!=='sig:'+TODAY){
         try{const v=localStorage.getItem(k);if(v)days.push({date:k.replace('sig:',''),stories:JSON.parse(v)});}catch(e){}
       }
     }
-    return days.sort((a,b)=>b.date.localeCompare(a.date));
+    return days.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,ARCHIVE_DAYS);
   }catch(e){return[];}
 }
 
