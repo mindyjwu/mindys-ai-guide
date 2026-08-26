@@ -107,13 +107,62 @@ function cleanStory(s, forcedIndustry) {
   return { ...s, industry, readMinutes };
 }
 
+// ── Caching ──────────────────────────────────────────────────────────────
+// A sweep costs a Claude call with web search, and every visitor's first view
+// used to pay for its own. Cache at the edge so the day's sweep runs a handful
+// of times total no matter how many people load the page. The in-memory map is
+// a second layer for warm containers when the edge cache misses.
+const DAY = 24 * 60 * 60;
+const CACHE_TTL = 6 * 60 * 60;
+const CACHE_HEADER = `public, s-maxage=${CACHE_TTL}, stale-while-revalidate=${DAY}`;
+
+const memo = new Map();
+
+function memoGet(key) {
+  const hit = memo.get(key);
+  if (!hit) return null;
+  if (Date.now() - hit.at < CACHE_TTL * 1000) return hit.data;
+  memo.delete(key);
+  return null;
+}
+
+function memoSet(key, data) {
+  memo.set(key, { at: Date.now(), data });
+  if (memo.size > 40) memo.delete(memo.keys().next().value);
+}
+
+// ── CORS ─────────────────────────────────────────────────────────────────
+// Reflect any origin we recognise rather than pinning one hostname, so every
+// preview deployment works instead of only the production domain.
+const PROD_HOST = 'mindys-ai-guide.vercel.app';
+const PREVIEW_HOST = /^mindys-ai-guide[a-z0-9-]*\.vercel\.app$/;
+const LOCAL_HOSTS = ['localhost', '127.0.0.1'];
+
+function corsOrigin(origin) {
+  if (!origin) return null;
+  let u;
+  try { u = new URL(origin); } catch { return null; }
+  if (LOCAL_HOSTS.includes(u.hostname)) return origin;
+  if (u.protocol !== 'https:') return null;
+  if (u.hostname === PROD_HOST || PREVIEW_HOST.test(u.hostname)) return origin;
+  return null;
+}
+
 module.exports = async (req, res) => {
+  const origin = corsOrigin(req.headers.origin);
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    // Reflecting the origin means the response varies by it; without this the
+    // shared edge cache could hand one origin's header to another.
+    res.setHeader('Vary', 'Origin');
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+
+  if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'GET') {
+    res.setHeader('Cache-Control', 'no-store');
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
-  res.setHeader('Access-Control-Allow-Origin', 'https://mindys-ai-guide.vercel.app');
-  res.setHeader('Access-Control-Allow-Methods', 'GET');
 
   const today = new Date().toISOString().split('T')[0];
   const q = req.query || {};
@@ -128,6 +177,7 @@ module.exports = async (req, res) => {
     maxTokens = 2000;
   } else if (industry) {
     if (!INDUSTRIES.includes(industry)) {
+      res.setHeader('Cache-Control', 'no-store');
       return res.status(400).json({ error: `Unknown industry "${industry}"` });
     }
     prompt = industryPrompt(today, industry, 5);
@@ -138,6 +188,14 @@ module.exports = async (req, res) => {
     maxTokens = 5000;
   } else {
     prompt = feedPrompt(today, INDUSTRIES, 5);
+  }
+
+  const cacheKey = `${today}|${format}|${industry}|${batch}`;
+  const cached = memoGet(cacheKey);
+  if (cached) {
+    res.setHeader('Cache-Control', CACHE_HEADER);
+    res.setHeader('X-Signal-Cache', 'hit');
+    return res.status(200).json(cached);
   }
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || process.env.mindy_secret_key });
@@ -159,16 +217,24 @@ module.exports = async (req, res) => {
 
     const data = extractJSON(text);
 
+    let payload;
     if (format === 'brief') {
       const stories = (data.brief?.stories || []).map(s => cleanStory(s, null));
-      return res.status(200).json({ brief: { ...data.brief, date: today, stories } });
+      payload = { brief: { ...data.brief, date: today, stories } };
+    } else {
+      data.stories = (data.stories || []).map(s => cleanStory(s, forcedIndustry));
+      payload = data;
     }
 
-    data.stories = (data.stories || []).map(s => cleanStory(s, forcedIndustry));
-    return res.status(200).json(data);
+    memoSet(cacheKey, payload);
+    res.setHeader('Cache-Control', CACHE_HEADER);
+    res.setHeader('X-Signal-Cache', 'miss');
+    return res.status(200).json(payload);
 
   } catch (err) {
     console.error('[/api/signal]', err);
+    // Never cache a failure, or one bad sweep poisons the day.
+    res.setHeader('Cache-Control', 'no-store');
     return res.status(500).json({ error: String(err) });
   }
 };
