@@ -26,11 +26,28 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background: var(--cream);
+  background: linear-gradient(
+    120deg,
+    #D9E5EC 0%,
+    #F3F8FA 18%,
+    #C9DCE6 36%,
+    #EEF5F8 54%,
+    #D2E2EA 72%,
+    #F6FAFB 90%,
+    #D9E5EC 100%
+  );
+  background-size: 320% 320%;
+  animation: waterFlow 26s ease-in-out infinite;
   color: var(--ink);
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+@keyframes waterFlow {
+  0%   { background-position: 0% 45%; }
+  50%  { background-position: 100% 56%; }
+  100% { background-position: 0% 45%; }
 }
 
 /* === NAV === */
@@ -349,7 +366,6 @@ nav {
 
 /* === TRY IT SECTION === */
 .try-section {
-  background: var(--warm-white);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -500,7 +516,6 @@ nav {
 
 /* === SPECIAL TOOLS SECTION === */
 .tools-section {
-  background: var(--cream);
   padding: 80px 2rem;
 }
 
@@ -793,7 +808,6 @@ textarea:focus-visible {
 
 /* === ASK SECTION === */
 .ask-section {
-  background: var(--warm-white);
   padding: 80px 2rem;
 }
 
