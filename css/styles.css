@@ -6,19 +6,20 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --cream: #FBF7F0;
-  --warm-white: #FFFCF7;
-  --clay: #C85F3A;
-  --clay-light: #F5E8E2;
-  --clay-dark: #9B3F22;
-  --sage: #4A7C59;
-  --sage-light: #E4EFE8;
-  --butter: #F2C94C;
-  --butter-light: #FDF6DC;
-  --ink: #1E1A16;
-  --ink-soft: #5A4F45;
-  --ink-muted: #9A8F85;
-  --border: rgba(30, 26, 22, 0.1);
+  /* Evening water — silver-blue palette */
+  --cream: #F6F9FB;
+  --warm-white: #F8FBFD;
+  --clay: #2F6690;
+  --clay-light: #E3EEF5;
+  --clay-dark: #1F4A66;
+  --sage: #5B8FA8;
+  --sage-light: #E8F2F5;
+  --butter: #B9CDD9;
+  --butter-light: #EFF5F8;
+  --ink: #16232E;
+  --ink-soft: #3E5A6E;
+  --ink-muted: #7B96A3;
+  --border: rgba(22, 35, 46, 0.1);
 }
 
 html { scroll-behavior: smooth; }
@@ -73,17 +74,6 @@ nav {
 
 .nav-links a:hover { color: var(--clay); }
 
-.nav-cta {
-  background: var(--clay);
-  color: white !important;
-  padding: 8px 18px;
-  border-radius: 100px;
-  font-size: 14px !important;
-  transition: background 0.2s !important;
-}
-
-.nav-cta:hover { background: var(--clay-dark) !important; }
-
 .nav-links a.nav-active { color: var(--clay); }
 
 /* Hamburger (hidden on desktop) */
@@ -128,7 +118,7 @@ nav {
 .hero-tag {
   display: inline-block;
   background: var(--butter-light);
-  color: #7A5C00;
+  color: #3D6478;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -136,7 +126,7 @@ nav {
   padding: 6px 14px;
   border-radius: 100px;
   margin-bottom: 1.5rem;
-  border: 1px solid #F2C94C44;
+  border: 1px solid #B9CDD966;
 }
 
 .hero h1 {
@@ -205,7 +195,7 @@ nav {
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 1.5rem;
-  box-shadow: 0 4px 40px rgba(200, 95, 58, 0.08);
+  box-shadow: 0 4px 40px rgba(47, 102, 144, 0.08);
 }
 
 .chat-header {
@@ -735,14 +725,14 @@ nav {
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 4px 24px rgba(30, 26, 22, 0.25);
+  box-shadow: 0 4px 24px rgba(22, 35, 46, 0.25);
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
 .claude-float:hover {
   background: #333;
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(30, 26, 22, 0.3);
+  box-shadow: 0 8px 32px rgba(22, 35, 46, 0.3);
 }
 
 .claude-float-icon { display: flex; align-items: center; }
@@ -875,7 +865,7 @@ textarea:focus-visible {
   margin-top: 0.5rem;
   padding: 0.75rem 1rem;
   background: var(--butter-light);
-  border: 1px solid rgba(242, 201, 76, 0.4);
+  border: 1px solid rgba(185, 205, 217, 0.4);
   border-radius: 12px;
   font-size: 0.8rem;
 }
@@ -965,7 +955,7 @@ textarea:focus-visible {
   background: var(--warm-white);
   border: 1.5px solid var(--border);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(30, 26, 22, 0.14);
+  box-shadow: 0 8px 32px rgba(22, 35, 46, 0.14);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -1053,7 +1043,7 @@ textarea:focus-visible {
     gap: 0;
     background: var(--warm-white);
     border-bottom: 1px solid var(--border);
-    box-shadow: 0 12px 32px rgba(30, 26, 22, 0.08);
+    box-shadow: 0 12px 32px rgba(22, 35, 46, 0.08);
     padding: 0.5rem 1.25rem 1rem;
     max-height: 0;
     overflow: hidden;
@@ -1070,5 +1060,4 @@ textarea:focus-visible {
 
   .nav-links li { padding: 0.35rem 0; }
   .nav-links li a { display: inline-block; font-size: 16px; }
-  .nav-cta { display: inline-block; margin-top: 0.5rem; }
 }
