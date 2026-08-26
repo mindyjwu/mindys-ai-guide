@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Real-time AI and innovation intelligence across 16 industries — updated daily.">
+  <meta name="description" content="Real-time AI and innovation intelligence across 16 industries — 15+ stories daily, each with an estimated read time.">
   <meta property="og:title" content="SIGNAL — AI Innovation Feed · Mindy's AI Guide">
   <meta property="og:description" content="Live AI and tech intelligence across Biotech, Hardware, Media, Finance, and 12 more industries.">
   <title>SIGNAL — AI Innovation Feed · Mindy's AI Guide</title>
@@ -130,10 +130,28 @@
     .empty h2{color:var(--tx);margin-bottom:8px}
     .aempty{text-align:center;padding:50px;color:var(--mu);font-size:13px;line-height:1.8}
 
+    /* ── Read time badge ── */
+    .cmeta2{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:3px}
+    .rt{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:600;color:var(--mu);background:var(--bg);border:1px solid var(--br);padding:2px 7px;border-radius:20px;white-space:nowrap}
+    /* ── Podcast script export ── */
+    .dlb{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:8px;border:1.5px solid var(--br);background:transparent;color:var(--mu);font-size:11.5px;font-weight:600;cursor:pointer;transition:all .15s;margin-right:7px;font-family:inherit}
+    .dlb:hover{border-color:var(--sage);background:var(--sl);color:var(--sd)}
+
+    /* ── On-demand industry fetch ── */
+    .fetchrow{display:flex;justify-content:center;padding:24px 0 6px}
+    .fetchmore{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;border:1.5px dashed var(--sm);background:#fff;color:var(--sd);font-size:12.5px;font-weight:700;cursor:pointer;transition:all .15s;font-family:inherit}
+    .fetchmore:hover{border-style:solid;border-color:var(--sage);background:var(--sl)}
+    .fetchmore:disabled{opacity:.55;cursor:progress}
+    .spin{width:12px;height:12px;border:2px solid var(--sm);border-top-color:var(--sd);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;flex-shrink:0}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    .sbar{overflow-x:auto;scrollbar-width:none}
+    .sbar::-webkit-scrollbar{display:none}
+
     @media(max-width:600px){
       .site-nav,.signal-header,.sbar,.feed-nav,.ca,.stbar{padding-left:16px;padding-right:16px}
       .mmet{grid-template-columns:repeat(2,1fr)}.mbdy{padding:16px}
       .grid{grid-template-columns:1fr}.ddm{min-width:260px;grid-template-columns:1fr}
+      .dlb{margin-right:5px;padding:5px 9px;font-size:11px}
     }
   </style>
 </head>
@@ -159,18 +177,20 @@
     <div class="brand">SIG<span>NAL</span></div>
     <div class="lvbg">LIVE</div>
   </div>
-  <div class="hsub">AI &amp; innovation intelligence · Updated daily across 16 industries</div>
+  <div class="hsub">AI &amp; innovation intelligence · 15+ stories daily across 16 industries</div>
 </div>
 
 <!-- ── Stats bar ───────────────────────────────── -->
 <div class="sbar">
   <div class="si"><div class="sn" id="s-st">—</div><div class="sl2">Today</div></div>
   <div class="sdv"></div>
-  <div class="si"><div class="sn">16</div><div class="sl2">Industries</div></div>
+  <div class="si"><div class="sn" id="s-ind">—</div><div class="sl2">Industries</div></div>
   <div class="sdv"></div>
   <div class="si"><div class="sn" id="s-hot">—</div><div class="sl2">Hot Sector</div></div>
   <div class="sdv"></div>
   <div class="si"><div class="sn" id="s-fund">—</div><div class="sl2">Funding Signal</div></div>
+  <div class="sdv"></div>
+  <div class="si"><div class="sn" id="s-read">—</div><div class="sl2">Read Time</div></div>
 </div>
 
 <!-- ── Feed nav ────────────────────────────────── -->
@@ -178,6 +198,7 @@
   <button class="ntab active" id="t-today" onclick="switchView('today')">Today's Digest</button>
   <button class="ntab" id="t-arch" onclick="switchView('archive')">Archive</button>
   <div class="nsp"></div>
+  <button class="dlb" id="dlb" title="Download every story on screen as a podcast-ready script">&#10515; Podcast script</button>
   <div class="ddw" id="ddw">
     <button class="ddb" id="ddb" onclick="toggleDD(event)">
       <span id="ddlbl">All Industries</span>
@@ -240,10 +261,14 @@ const PHOTO={
   mobility:'ydpqMHNtGEE',gaming:'m3th_-a7M1A',retail:'R5A_YlcSe2c',others:'q10VITrVYUM'
 };
 const TODAY=new Date().toISOString().split('T')[0];
+const IND_COUNT=Object.keys(META).length;
 let todayStories=[],archiveDays=[],curView='today',selIndustry=null;
+let isDemo=true,sweepsDone=0,fetchingInd=null;
+const fetchedInd=new Set();
 
 function imgUrl(s){const pid=PHOTO[s.industry]||PHOTO.others;return`https://images.unsplash.com/photo-${pid}?w=800&h=300&fit=crop&auto=format&q=75`;}
 function fbUrl(s){const seed=((s.company||'')+(s.industry||'')).replace(/\W/g,'').toLowerCase().slice(0,18)||'tech';return`https://picsum.photos/seed/${seed}/800/300`;}
+function esc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 // localStorage cache
 function saveDay(st){try{localStorage.setItem('sig:'+TODAY,JSON.stringify(st));}catch(e){}}
@@ -261,12 +286,103 @@ function loadArchive(){
   }catch(e){return[];}
 }
 
-// Card builder
+/* ═══ Read time ═══════════════════════════════════════════
+   readMinutes is the source article's length, estimated by the model.
+   If it's missing we fall back to scaling up our own summary text. */
+function wordCount(t){return String(t||'').trim().split(/\s+/).filter(Boolean).length;}
+function readMin(s){
+  const n=Number(s.readMinutes);
+  if(Number.isFinite(n)&&n>0)return Math.max(1,Math.min(20,Math.round(n)));
+  return Math.max(2,Math.min(20,Math.round(wordCount((s.summary||'')+' '+(s.detail||''))*4/230)));
+}
+function readTotal(list){return Math.max(1,list.reduce((a,s)=>a+readMin(s),0));}
+// Rough spoken length if the script below were recorded, at ~165 words per minute.
+function spokenMins(list){
+  const w=list.reduce((a,s)=>a+wordCount(scriptFor(s)),0);
+  return Math.max(1,Math.round(w/165));
+}
+function coveredCount(){return new Set(todayStories.map(s=>s.industry)).size;}
+
+/* ═══ Story helpers ═══════════════════════════════════════ */
+function keyOf(s){return (s.url||'')+'|'+String(s.headline||'').toLowerCase().replace(/\W+/g,'');}
+function mergeStories(incoming){
+  const seen=new Set(todayStories.map(keyOf));
+  const added=[];
+  (incoming||[]).forEach(s=>{
+    const k=keyOf(s);
+    if(!seen.has(k)&&s.headline){seen.add(k);todayStories.push(s);added.push(s);}
+  });
+  return added;
+}
+function visibleStories(){
+  if(curView==='today')return selIndustry?todayStories.filter(s=>s.industry===selIndustry):todayStories;
+  const out=[];
+  archiveDays.forEach(d=>{
+    (selIndustry?d.stories.filter(s=>s.industry===selIndustry):d.stories).forEach(s=>out.push(s));
+  });
+  return out;
+}
+function listify(a){
+  if(a.length<=1)return a[0]||'';
+  if(a.length===2)return a[0]+' and '+a[1];
+  return a.slice(0,-1).join(', ')+', and '+a[a.length-1];
+}
+
+/* ═══ Audio: script writing ═══════════════════════════════ */
+function scriptFor(s,i,total){
+  const m=META[s.industry]||META.others;
+  const p=[];
+  if(typeof i==='number')p.push(`Story ${i+1}${total?' of '+total:''}. ${m.label}.`);
+  p.push(String(s.headline||'').replace(/\.$/,'')+'.');
+  if(s.company)p.push(`From ${s.company}${s.source?', reported by '+s.source:''}.`);
+  if(s.summary)p.push(s.summary);
+  if(s.stat&&s.statLabel)p.push(`The number to hold onto: ${s.stat} ${s.statLabel}.`);
+  if(s.detail)p.push(s.detail);
+  return p.filter(Boolean).join(' ');
+}
+function introText(list){
+  const d=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  const inds=[...new Set(list.map(s=>(META[s.industry]||META.others).label))];
+  return `This is Signal, your A.I. and innovation briefing for ${d}. ${list.length} `+
+    `${list.length===1?'story':'stories'} today across ${inds.length} `+
+    `${inds.length===1?'industry':'industries'}: ${listify(inds)}. Here is what happened.`;
+}
+function outroText(list){
+  const mins=Math.max(1,Math.round(list.reduce((a,s)=>a+readMin(s),0)));
+  return `That is your Signal briefing. ${list.length} ${list.length===1?'story':'stories'}, `+
+    `about ${mins} minutes of reading if you open every source. Every link is on the page. See you tomorrow.`;
+}
+function fullScript(list){
+  const d=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  const out=[`SIGNAL — ${d}`,`${list.length} stories · ~${spokenMins(list)} min read aloud · ${readTotal(list)} min to read every source`,'',
+    'COLD OPEN','',introText(list),''];
+  list.forEach((s,i)=>{
+    const m=META[s.industry]||META.others;
+    out.push(`─── ${i+1}. ${m.label.toUpperCase()} ───`,'',scriptFor(s,i,list.length),'');
+    if(s.url)out.push(`Source: ${s.source||'link'} — ${s.url} (${readMin(s)} min read)`,'');
+  });
+  out.push('SIGN OFF','',outroText(list),'');
+  return out.join('\n');
+}
+
+function downloadScript(){
+  const list=visibleStories();
+  if(!list.length)return;
+  const blob=new Blob([fullScript(list)],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='signal-podcast-'+TODAY+'.txt';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
+/* ═══ Cards ═══════════════════════════════════════════════ */
 function makeCard(s){
   const m=META[s.industry]||META.others;
   const iu=imgUrl(s),fu=fbUrl(s);
   const el=document.createElement('div');
-  el.className='card';el.onclick=()=>openModal(s);
+  el.className='card';
+  el.onclick=()=>openModal(s);
   el.innerHTML=`
     <div class="ct" style="background:${m.bg}">
       <img class="ct-img" src="${iu}" alt="" loading="lazy"
@@ -274,18 +390,21 @@ function makeCard(s){
         onerror="this.src='${fu}';this.onerror=null;setTimeout(()=>this.classList.add('ok'),50)">
       <div class="ct-ov" style="background:linear-gradient(135deg,${m.color}d8,${m.color}85)"></div>
       <div class="ct-cnt">
-        <div class="stbig">${s.stat||'—'}</div>
-        <div class="stlbl">${s.statLabel||''}</div>
+        <div class="stbig">${esc(s.stat)||'—'}</div>
+        <div class="stlbl">${esc(s.statLabel)}</div>
       </div>
     </div>
     <div class="cb">
       <div class="chip" style="background:${m.color}18;color:${m.color}">${m.label}</div>
-      <div class="chl">${s.headline}</div>
-      <div class="csu">${s.summary}</div>
+      <div class="chl">${esc(s.headline)}</div>
+      <div class="csu">${esc(s.summary)}</div>
+      <div class="cmeta2">
+        <span class="rt">&#128214; ${readMin(s)} min read</span>
+      </div>
       <div class="cft">
         <div class="cmeta">
-          ${s.company?`<div class="cco">${s.company}</div>`:''}
-          ${s.url?`<a class="csrc" href="${s.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗ ${s.source||'Read article'}</a>`:s.source?`<div class="cco">${s.source}</div>`:''}
+          ${s.company?`<div class="cco">${esc(s.company)}</div>`:''}
+          ${s.url?`<a class="csrc" href="${esc(s.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗ ${esc(s.source)||'Read article'}</a>`:s.source?`<div class="cco">${esc(s.source)}</div>`:''}
         </div>
         <div class="arr">→</div>
       </div>
@@ -299,13 +418,34 @@ function rGrid(stories,container){
   container.appendChild(g);
 }
 
+function fetchRow(id,haveSome){
+  const m=META[id];if(!m)return null;
+  const wrap=document.createElement('div');wrap.className='fetchrow';
+  const b=document.createElement('button');b.className='fetchmore';
+  const busy=fetchingInd===id;
+  b.disabled=!!fetchingInd;
+  b.innerHTML=busy
+    ? `<span class="spin"></span> Searching ${m.label} news…`
+    : `<span class="ddd" style="background:${m.color}"></span> ${haveSome?'Find more':'Search'} ${m.label} stories →`;
+  b.onclick=()=>fetchIndustry(id);
+  wrap.appendChild(b);
+  return wrap;
+}
+
 function showToday(){
   const c=document.getElementById('content');c.innerHTML='';
-  const fs=selIndustry?todayStories.filter(s=>s.industry===selIndustry):todayStories;
-  if(!fs.length){c.innerHTML=`<div class="empty"><h2>${selIndustry?'No stories today in this category':'No stories yet'}</h2></div>`;return;}
+  const fs=visibleStories();
   const lbl=document.createElement('div');lbl.className='slbl';
-  lbl.textContent=selIndustry?`Today · ${META[selIndustry]?.label}`:`Today — ${new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}`;
-  c.appendChild(lbl);rGrid(fs,c);
+  if(fs.length){
+    lbl.textContent=selIndustry
+      ? `Today · ${META[selIndustry].label} · ${fs.length} ${fs.length===1?'story':'stories'} · ${readTotal(fs)} min of reading`
+      : `Today — ${new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})} · ${fs.length} stories · ${readTotal(fs)} min of reading`;
+    c.appendChild(lbl);rGrid(fs,c);
+  }else{
+    c.innerHTML=`<div class="empty"><h2>${selIndustry?'Nothing in this category yet today':'No stories yet'}</h2>
+      <p style="font-size:13px;margin-top:6px">${selIndustry?'Signal can go looking for it right now.':''}</p></div>`;
+  }
+  if(selIndustry){const r=fetchRow(selIndustry,fs.length>0);if(r)c.appendChild(r);}
 }
 
 function showArchive(){
@@ -316,20 +456,32 @@ function showArchive(){
     const fs=selIndustry?day.stories.filter(s=>s.industry===selIndustry):day.stories;
     if(!fs.length)return;any=true;
     const dh=document.createElement('div');dh.className='dhdr';
-    dh.textContent=new Date(day.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+    dh.textContent=new Date(day.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})
+      +` · ${fs.length} ${fs.length===1?'story':'stories'}`;
     c.appendChild(dh);rGrid(fs,c);
   });
   if(!any)c.innerHTML='<div class="aempty">No archived stories match this filter.</div>';
 }
 
-function renderView(){curView==='today'?showToday():showArchive();}
+function renderView(){
+  curView==='today'?showToday():showArchive();
+  const dl=document.getElementById('dlb');
+  if(dl)dl.disabled=!visibleStories().length;
+}
 
+function updStats(){
+  document.getElementById('s-st').textContent=todayStories.length||'—';
+  document.getElementById('s-ind').textContent=todayStories.length?coveredCount()+'/'+IND_COUNT:'—';
+  document.getElementById('s-read').textContent=todayStories.length?readTotal(todayStories)+' min':'—';
+}
+
+/* ═══ Nav / dropdown / modal ══════════════════════════════ */
 function switchView(v){
   curView=v;
   document.getElementById('t-today').classList.toggle('active',v==='today');
   document.getElementById('t-arch').classList.toggle('active',v==='archive');
   if(v==='archive')setSt('arch','#8b5cf6','Viewing archive — past stories stored locally');
-  else if(todayStories.length)setSt('live','#15803d',`✓ ${todayStories.length} stories today · ${TODAY}`);
+  else if(todayStories.length&&!isDemo)setSt('live','#15803d',`✓ ${todayStories.length} stories today · ${coveredCount()} industries · ${TODAY}`);
   renderView();
 }
 
@@ -342,7 +494,6 @@ function buildDD(){
     b.onclick=()=>selInd(id);m.appendChild(b);
   });
 }
-
 function toggleDD(e){
   e.stopPropagation();
   const btn=document.getElementById('ddb'),menu=document.getElementById('ddm');
@@ -352,13 +503,13 @@ function toggleDD(e){
 function closeDD(){document.getElementById('ddb').classList.remove('open');document.getElementById('ddm').classList.remove('open');}
 function selInd(id){
   selIndustry=id;closeDD();
-  document.getElementById('ddlbl').textContent=id?META[id]?.label||id:'All Industries';
+  document.getElementById('ddlbl').textContent=id?META[id].label:'All Industries';
   document.querySelectorAll('.ddi').forEach(b=>b.classList.remove('sel'));
-  document.getElementById(id?'ddi-'+id:'ddi-all')?.classList.add('sel');
+  const t=document.getElementById(id?'ddi-'+id:'ddi-all');if(t)t.classList.add('sel');
   renderView();
 }
 document.addEventListener('click',e=>{if(!document.getElementById('ddw').contains(e.target))closeDD();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeDD();}});
 
 function setSt(type,dot,txt){
   document.getElementById('stbar').className='stbar '+type;
@@ -377,26 +528,27 @@ function openModal(s){
       <div class="mhov" style="background:linear-gradient(135deg,${m.color}d8,${m.color}80)"></div>
       <button class="mcls" id="mclsbtn">✕</button>
       <div class="mhcnt">
-        <div class="mhnum">${s.stat||'—'}</div>
-        <div class="mhlbl">${s.statLabel||''}</div>
+        <div class="mhnum">${esc(s.stat)||'—'}</div>
+        <div class="mhlbl">${esc(s.statLabel)}</div>
       </div>
     </div>`;
   document.getElementById('mclsbtn').onclick=closeModal;
-  const mets=[{v:s.stat||'—',l:s.statLabel||'Key Metric'},{v:s.metricB||'—',l:s.metricBLabel||'Impact'},{v:s.metricC||'—',l:s.metricCLabel||'Scale'}];
+  const mets=[{v:esc(s.stat)||'—',l:esc(s.statLabel)||'Key Metric'},{v:esc(s.metricB)||'—',l:esc(s.metricBLabel)||'Impact'},{v:esc(s.metricC)||'—',l:esc(s.metricCLabel)||'Scale'}];
   document.getElementById('mbdy').innerHTML=`
     <div class="mir">
       <div class="chip" style="background:${m.color}18;color:${m.color}">${m.label}</div>
-      ${s.url?`<a class="msrc" href="${s.url}" target="_blank" rel="noopener">↗ ${s.source||'Read article'}</a>`:s.source?`<span style="font-size:10px;color:var(--mu)">${s.source}</span>`:''}
+      <span class="rt">&#128214; ${readMin(s)} min read</span>
+      ${s.url?`<a class="msrc" href="${esc(s.url)}" target="_blank" rel="noopener">↗ ${esc(s.source)||'Read article'}</a>`:s.source?`<span style="font-size:10px;color:var(--mu)">${esc(s.source)}</span>`:''}
     </div>
-    <div class="mhl">${s.headline}</div>
+    <div class="mhl">${esc(s.headline)}</div>
     <div class="mmet">${mets.map(x=>`<div class="mmc"><div class="mmv" style="color:${m.color}">${x.v}</div><div class="mml">${x.l}</div></div>`).join('')}</div>
-    <div class="mdet">${s.detail||s.summary}</div>
-    <div class="mtgs">${(s.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    <div class="mdet">${esc(s.detail||s.summary)}</div>
+    <div class="mtgs">${(s.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
     <div class="mft">
-      ${s.company?`<span>${s.company}</span>`:''}
+      ${s.company?`<span>${esc(s.company)}</span>`:''}
       ${s.company&&s.url?'<span>·</span>':''}
-      ${s.url?`<a href="${s.url}" target="_blank" rel="noopener">↗ ${s.source||'Source'}</a>`:''}
-      <span style="margin-left:auto;opacity:.6">${s.date||TODAY}</span>
+      ${s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener">↗ ${esc(s.source)||'Source'}</a>`:''}
+      <span style="margin-left:auto;opacity:.6">${esc(s.date||TODAY)}</span>
     </div>`;
   document.getElementById('mo').classList.add('open');
   document.body.style.overflow='hidden';
@@ -404,67 +556,101 @@ function openModal(s){
 function closeModal(){document.getElementById('mo').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('mo').addEventListener('click',e=>{if(e.target===document.getElementById('mo'))closeModal();});
 
-// JSON extractor
-function xJ(txt){
-  const c=txt.replace(/```json\s*/g,'').replace(/```\s*/g,'');
-  let d=0,s=-1,e=-1;
-  for(let i=0;i<c.length;i++){
-    if(c[i]==='{'){if(!d)s=i;d++;}else if(c[i]==='}'){d--;if(!d&&s>=0){e=i;break;}}
-  }
-  if(s<0||e<0)throw new Error('No JSON');
-  const sl=c.slice(s,e+1);
-  try{return JSON.parse(sl);}catch(err){return JSON.parse(sl.replace(/,(\s*[}\]])/g,'$1').replace(/[\x00-\x1F]/g,''));}
-}
-
-// Demo fallback
+/* ═══ Demo fallback ═══════════════════════════════════════ */
 const DEMO=[
-  {industry:'software',company:'Anthropic',headline:'Claude 4 Sets New Reasoning Benchmarks Across All Evals',summary:'Anthropic released Claude 4 with 40% improvement in multi-step reasoning and 92% MATH benchmark score. Enterprise API usage tripled within the first week.',stat:'92%',statLabel:'MATH benchmark',metricB:'3×',metricBLabel:'API growth',metricC:'$40B',metricCLabel:'Valuation',detail:'Claude 4 represents one of the most significant capability leaps since GPT-4. The model family includes Haiku, Sonnet, and Opus tiers. Enterprise demand has surged with the company forecasting $2B in annualized revenue.',tags:['LLM','Reasoning','API'],source:'TechCrunch',url:'https://techcrunch.com'},
-  {industry:'biotech',company:'Recursion Pharmaceuticals',headline:'AI Platform Discovers Cancer Drug Candidates in 6 Weeks',summary:'Recursion\'s AI identified three novel drug candidates in just 6 weeks — a process traditionally taking 2–3 years. A $150M Roche co-development deal followed.',stat:'$150M',statLabel:'Roche deal',metricB:'6wk',metricBLabel:'Discovery time',metricC:'15×',metricCLabel:'vs. traditional',detail:'Recursion\'s phenomics platform processes millions of cellular images to identify biological patterns. The Roche partnership targets KRAS-mutant cancers — one of oncology\'s hardest targets.',tags:['Drug Discovery','Oncology','Roche'],source:'STAT News',url:'https://statnews.com'},
-  {industry:'hardware',company:'NVIDIA',headline:'Blackwell Ultra GPUs Deliver 4× LLM Training Speed',summary:'NVIDIA\'s GB300 chips ship to hyperscalers with 4x training throughput. Microsoft and Google committed to $40B combined orders through 2026.',stat:'4×',statLabel:'Training speed',metricB:'$40B',metricBLabel:'Combined orders',metricC:'288GB',metricCLabel:'HBM3e memory',detail:'The Blackwell Ultra architecture features 288GB of HBM3e memory and a new NVLink reducing communication overhead by 60%.',tags:['GPU','AI Compute','TSMC'],source:'Reuters',url:'https://reuters.com/technology'},
-  {industry:'energy',company:'Form Energy',headline:'Iron-Air Batteries Hit $20/kWh for 100-Hour Grid Storage',summary:'Form Energy deployed at 10 US utility sites with 100-hour storage — 80% cheaper than lithium-ion. The breakthrough makes 24/7 renewable power viable.',stat:'$20',statLabel:'Per kWh cost',metricB:'100hr',metricBLabel:'Storage duration',metricC:'1.2GWh',metricCLabel:'Deployed capacity',detail:'Form Energy\'s iron-air technology uses a rust/de-rust cycle. At $20/kWh, utilities can build fully renewable grids. The DOE awarded a $750M loan guarantee.',tags:['Grid Storage','Renewable','Battery'],source:'Bloomberg',url:'https://bloomberg.com/green'},
-  {industry:'manufacturing',company:'Figure AI',headline:'Figure 02 Humanoid Robots Deploy at 3 BMW Plants',summary:'Figure AI\'s humanoid robots began commercial deployment at three BMW facilities at 99.2% accuracy. A $675M Series B valued the company at $3.2B.',stat:'99.2%',statLabel:'Task accuracy',metricB:'$675M',metricBLabel:'Series B raised',metricC:'10hr',metricCLabel:'To learn new task',detail:'The Figure 02 marks the first large-scale commercial humanoid robot deployment in automotive manufacturing. Robots learn new tasks in 10 hours vs. 6–12 months for traditional robots.',tags:['Humanoid','Automotive','VLA'],source:'Wall Street Journal',url:'https://wsj.com'},
+  {industry:'software',company:'Anthropic',headline:'Claude 4 Sets New Reasoning Benchmarks Across All Evals',summary:'Anthropic released Claude 4 with 40% improvement in multi-step reasoning and 92% MATH benchmark score. Enterprise API usage tripled within the first week.',stat:'92%',statLabel:'MATH benchmark',metricB:'3×',metricBLabel:'API growth',metricC:'$40B',metricCLabel:'Valuation',readMinutes:5,detail:'Claude 4 represents one of the most significant capability leaps since GPT-4. The model family includes Haiku, Sonnet, and Opus tiers. Enterprise demand has surged with the company forecasting $2B in annualized revenue.',tags:['LLM','Reasoning','API'],source:'TechCrunch',url:'https://techcrunch.com'},
+  {industry:'biotech',company:'Recursion Pharmaceuticals',headline:'AI Platform Discovers Cancer Drug Candidates in 6 Weeks',summary:'Recursion\'s AI identified three novel drug candidates in just 6 weeks — a process traditionally taking 2–3 years. A $150M Roche co-development deal followed.',stat:'$150M',statLabel:'Roche deal',metricB:'6wk',metricBLabel:'Discovery time',metricC:'15×',metricCLabel:'vs. traditional',readMinutes:7,detail:'Recursion\'s phenomics platform processes millions of cellular images to identify biological patterns. The Roche partnership targets KRAS-mutant cancers — one of oncology\'s hardest targets.',tags:['Drug Discovery','Oncology','Roche'],source:'STAT News',url:'https://statnews.com'},
+  {industry:'hardware',company:'NVIDIA',headline:'Blackwell Ultra GPUs Deliver 4× LLM Training Speed',summary:'NVIDIA\'s GB300 chips ship to hyperscalers with 4x training throughput. Microsoft and Google committed to $40B combined orders through 2026.',stat:'4×',statLabel:'Training speed',metricB:'$40B',metricBLabel:'Combined orders',metricC:'288GB',metricCLabel:'HBM3e memory',readMinutes:4,detail:'The Blackwell Ultra architecture features 288GB of HBM3e memory and a new NVLink reducing communication overhead by 60%.',tags:['GPU','AI Compute','TSMC'],source:'Reuters',url:'https://reuters.com/technology'},
+  {industry:'energy',company:'Form Energy',headline:'Iron-Air Batteries Hit $20/kWh for 100-Hour Grid Storage',summary:'Form Energy deployed at 10 US utility sites with 100-hour storage — 80% cheaper than lithium-ion. The breakthrough makes 24/7 renewable power viable.',stat:'$20',statLabel:'Per kWh cost',metricB:'100hr',metricBLabel:'Storage duration',metricC:'1.2GWh',metricCLabel:'Deployed capacity',readMinutes:6,detail:'Form Energy\'s iron-air technology uses a rust/de-rust cycle. At $20/kWh, utilities can build fully renewable grids. The DOE awarded a $750M loan guarantee.',tags:['Grid Storage','Renewable','Battery'],source:'Bloomberg',url:'https://bloomberg.com/green'},
+  {industry:'manufacturing',company:'Figure AI',headline:'Figure 02 Humanoid Robots Deploy at 3 BMW Plants',summary:'Figure AI\'s humanoid robots began commercial deployment at three BMW facilities at 99.2% accuracy. A $675M Series B valued the company at $3.2B.',stat:'99.2%',statLabel:'Task accuracy',metricB:'$675M',metricBLabel:'Series B raised',metricC:'10hr',metricCLabel:'To learn new task',readMinutes:8,detail:'The Figure 02 marks the first large-scale commercial humanoid robot deployment in automotive manufacturing. Robots learn new tasks in 10 hours vs. 6–12 months for traditional robots.',tags:['Humanoid','Automotive','VLA'],source:'Wall Street Journal',url:'https://wsj.com'},
 ];
 
-async function fetchStories(){
-  setSt('loading','#d97706','Fetching today\'s live stories (~20s)…');
+/* ═══ Fetching ════════════════════════════════════════════ */
+function applyMeta(meta){
+  if(!meta)return;
+  const hm=META[meta.hottest];
+  if(hm)document.getElementById('s-hot').textContent=hm.label.split(' ')[0];
+  else if(meta.hottest)document.getElementById('s-hot').textContent=meta.hottest;
+  if(meta.totalFunding)document.getElementById('s-fund').textContent=meta.totalFunding;
+}
+
+async function getJSON(url){
+  const res=await fetch(url);
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  const d=await res.json();
+  if(d.error)throw new Error(d.error);
+  return d;
+}
+
+function absorb(stories,meta){
+  if(!stories||!stories.length)return 0;
+  if(isDemo){isDemo=false;todayStories=[];}
+  const added=mergeStories(stories);
+  applyMeta(meta);
+  saveDay(todayStories);
+  updStats();
+  renderView();
+  return added.length;
+}
+
+// Three parallel sweeps, five industries each — far more coverage than one
+// request can find inside a single function timeout.
+async function fetchAll(){
+  setSt('loading','#d97706','Sweeping 16 industries for today\'s stories (~30s)…');
+  sweepsDone=0;
+  await Promise.all([1,2,3].map(async n=>{
+    try{
+      const d=await getJSON('/api/signal?batch='+n);
+      absorb(d.stories,d.meta);
+    }catch(e){console.warn('[signal] sweep '+n,e);}
+    sweepsDone++;
+    if(sweepsDone<3&&!isDemo)setSt('loading','#d97706',`${todayStories.length} stories in · sweep ${sweepsDone} of 3 done…`);
+  }));
+  if(isDemo)setSt('demo','#3b82f6','Showing sample stories · live data unavailable');
+  else setSt('live','#15803d',`✓ ${todayStories.length} live stories · ${coveredCount()} of ${IND_COUNT} industries · ${TODAY}`);
+  updStats();renderView();
+}
+
+async function fetchIndustry(id){
+  if(fetchingInd)return;
+  fetchingInd=id;renderView();
+  setSt('loading','#d97706',`Searching ${META[id].label} for fresh stories…`);
   try{
-    const res=await fetch('/api/signal');
-    if(!res.ok)throw new Error(`HTTP ${res.status}`);
-    const data=await res.json();
-    const st=data.stories||[];
-    if(st.length){
-      todayStories=st;
-      saveDay(st);
-      document.getElementById('s-st').textContent=st.length;
-      const hm=META[data.meta?.hottest];
-      document.getElementById('s-hot').textContent=hm?hm.label.split(' ')[0]:data.meta?.hottest||'AI';
-      document.getElementById('s-fund').textContent=data.meta?.totalFunding||'—';
-      setSt('live','#15803d',`✓ ${st.length} live stories loaded · ${TODAY}`);
-      renderView();
-    }else{setSt('demo','#3b82f6','Showing sample stories — live fetch returned no results');}
+    const d=await getJSON('/api/signal?industry='+encodeURIComponent(id));
+    const n=absorb(d.stories,null);
+    fetchedInd.add(id);
+    setSt(n?'live':'demo',n?'#15803d':'#3b82f6',
+      n?`✓ Added ${n} ${META[id].label} ${n===1?'story':'stories'} · ${todayStories.length} total`
+       :`No new ${META[id].label} stories found — try again later.`);
   }catch(e){
-    console.error(e);
-    setSt('demo','#3b82f6','Showing sample stories · live data unavailable');
+    console.warn('[signal] industry '+id,e);
+    setSt('demo','#3b82f6',`Couldn't reach the ${META[id].label} feed — try again in a moment.`);
   }
+  fetchingInd=null;renderView();
+}
+
+/* ═══ Boot ════════════════════════════════════════════════ */
+function wireControls(){
+  document.getElementById('dlb').onclick=downloadScript;
 }
 
 async function init(){
-  buildDD();
+  buildDD();wireControls();
   archiveDays=loadArchive();
   const stored=loadDay();
-  if(stored?.length){
-    todayStories=stored;
-    document.getElementById('s-st').textContent=stored.length;
-    setSt('live','#15803d',`✓ Today's ${stored.length} stories · ${TODAY}`);
+  if(stored&&stored.length){
+    isDemo=false;todayStories=stored;
+    updStats();
+    setSt('live','#15803d',`✓ Today's ${stored.length} stories · ${coveredCount()} industries · ${TODAY}`);
     renderView();return;
   }
   todayStories=DEMO.slice();
-  document.getElementById('s-st').textContent=DEMO.length;
+  updStats();
   document.getElementById('s-hot').textContent='AI';
   document.getElementById('s-fund').textContent='$14B+';
   setSt('demo','#3b82f6','Showing sample stories — fetching live data…');
   renderView();
-  fetchStories();
+  fetchAll();
 }
 init();
 </script>

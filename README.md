@@ -13,7 +13,7 @@ It teaches non-technical people how to actually use Claude for the stuff that's 
 - **Ask the guide** — an embedded chat that answers AI questions in plain English
 - **Explore Art with AI** — browsing MoMA's open-access collection by mood instead of by artist name
 - **Quick Research prototype** — a 7-screen flow probing how people actually perceive AI, misinformation, and trust
-- **SIGNAL** — a lightweight AI-news feed
+- **SIGNAL** — an AI-news feed that sweeps all 16 industries each morning in three parallel passes, with an estimated read time on every story, an on-demand search for any industry the day's sweep missed, and a downloadable podcast script
 - **About page** (`about.html`) — the "why" behind the site: AI as a talent amplifier, not a replacement
 - **My projects** — Global Explorer, GenAI, and Stock Advisor are surfaced right on the homepage, since they're the projects I'm actually actively building
 
