@@ -6,7 +6,7 @@
 
   <!-- SEO -->
   <title>Mindy's Portfolio</title>
-  <meta name="description" content="Mindy Wu's personal site — AI tools, creative experiments, and the mini projects she's been building.">
+  <meta name="description" content="AI doesn't replace talent, it amplifies it. Who I am, what I build, and the idea behind it.">
   <meta name="author" content="Mindy Wu">
 
   <!-- Favicon -->
@@ -14,7 +14,7 @@
 
   <!-- Open Graph (for link previews on WhatsApp, iMessage, LinkedIn) -->
   <meta property="og:title" content="Mindy's Portfolio">
-  <meta property="og:description" content="Mindy Wu's personal site — AI tools, creative experiments, and the mini projects she's been building.">
+  <meta property="og:description" content="AI doesn't replace talent, it amplifies it. Why I build this, and who I am.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mindy-portfolio.vercel.app">
   <meta property="og:image" content="https://mindy-portfolio.vercel.app/assets/og-image.png">
@@ -26,18 +26,124 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* ============================================================
+       HOME / ABOUT-STYLE LANDING
+       ============================================================ */
+
+    .about-page-hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 2rem 40px;
+      text-align: center;
+    }
+
+    .about-page-hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.15;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+    }
+
+    .about-page-hero h1 em { font-style: italic; color: var(--clay); }
+
+    .about-page-hero .hero-actions { justify-content: center; margin-top: 2rem; }
+
+    /* Essay */
+    .essay-section { background: var(--warm-white); border-top: 1px solid var(--border); }
+
+    .essay-inner { max-width: 640px; margin: 0 auto; padding: 72px 2rem; }
+
+    .essay-inner h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(24px, 3vw, 32px);
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .essay-inner p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      margin-bottom: 1.25rem;
+    }
+
+    .essay-inner p:last-child { margin-bottom: 0; }
+
+    /* Pull-quote / aside */
+    .essay-aside {
+      background: var(--butter-light);
+      border-left: 3px solid var(--butter);
+      border-radius: 8px;
+      padding: 1.5rem 1.75rem;
+      margin: 2rem 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    .essay-aside strong { color: var(--ink); }
+
+    .essay-aside .video-slot {
+      margin-top: 1rem;
+      font-size: 13px;
+    }
+
+    .essay-aside .video-slot a {
+      color: var(--clay);
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .essay-aside .video-slot a:hover { color: var(--silver-dark); }
+
+    /* See it in action */
+    .see-it-section { padding: 72px 2rem; }
+
+    .see-it-inner { max-width: 1100px; margin: 0 auto; }
+
+    .see-it-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .see-it-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .see-it-links a:hover { border-color: var(--clay); color: var(--clay); }
+
+    @media (max-width: 640px) {
+      .about-page-hero { padding: 60px 1.5rem 32px; }
+      .essay-inner { padding: 48px 1.5rem; }
+    }
+  </style>
 </head>
 <body>
 
 <!-- ===================== NAV ===================== -->
 <nav>
-  <a href="#" class="nav-logo">Mindy<span>'s Portfolio</span></a>
+  <a href="index.html" class="nav-logo">Mindy<span>'s Portfolio</span></a>
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
     <span></span><span></span><span></span>
   </button>
   <ul class="nav-links" id="nav-links">
-    <li><a href="about.html">About</a></li>
-    <li><a href="#feedback">Feedback</a></li>
+    <li><a href="#bio">About</a></li>
     <li><a href="https://global-explorer.vercel.app" target="_blank" rel="noopener" style="color: #6B3FA8; font-weight: 500;">Global Explorer ✦</a></li>
     <li><a href="https://gender-ai.vercel.app" target="_blank" rel="noopener" style="color: #1A4FCC; font-weight: 500;">GenAI ✦</a></li>
     <li><a href="https://github.com/mindyjwu/stock_advisor" target="_blank" rel="noopener" style="color: #1A7A4A; font-weight: 500;">Stock Advisor ✦</a></li>
@@ -46,346 +152,68 @@
 </nav>
 
 <!-- ===================== HERO ===================== -->
-<section>
-  <div class="hero">
-    <div class="hero-left">
-      <div class="hero-tag">✦ No tech background needed</div>
-      <h1>AI that finally<br><em>makes sense</em><br>for you</h1>
-      <p class="hero-sub">Short, honest guides that show real people — not engineers — how to use AI for the stuff that actually matters in daily life.</p>
-      <div class="hero-actions">
-        <a href="#try" class="btn-primary">Try a prompt yourself →</a>
-        <a href="#ask" class="btn-secondary">Ask me anything →</a>
-      </div>
-    </div>
-
-    <div class="hero-visual">
-      <div class="chat-mockup" role="img" aria-label="Example conversation with Claude AI">
-        <div class="chat-header">
-          <div class="chat-avatar" aria-hidden="true">AI</div>
-          <div>
-            <div class="chat-name">Claude</div>
-            <div class="chat-sub">by Anthropic</div>
-          </div>
-        </div>
-
-        <div class="msg msg-user">
-          <div class="msg-dot" aria-hidden="true">M</div>
-          <div class="msg-bubble">How do I text my daughter about her dating life without sounding too nosy? I want to show I care but not scare her off 😅</div>
-        </div>
-
-        <div class="msg msg-ai">
-          <div class="msg-dot" aria-hidden="true">AI</div>
-          <div class="msg-bubble">
-            Two approaches depending on your vibe:<br><br>
-            <strong>Option 1 — The Casual Check-in:</strong><br>
-            "Hey! Just thinking about you. How's everything going? Life, work, all of it 😊"<br>
-            <em>Opens the door without zeroing in — she can share as much or as little as she wants.</em><br><br>
-            <strong>Option 2 — The Gentle Opener:</strong><br>
-            "I know I'm your mom and that's automatic cringe, but I'm always here if you ever want to talk about anything. No judgment, promise 🤍"<br>
-            <em>Acknowledges the awkwardness with humour — kids often respond better when you don't pretend it isn't weird.</em><br><br>
-            Which feels more like you?
-          </div>
-        </div>
-
-        <div class="chat-input" aria-hidden="true">
-          <div class="chat-input-text">Type your question here...</div>
-          <div class="chat-send">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-          </div>
-        </div>
-      </div>
-    </div>
+<section class="about-page-hero">
+  <div class="hero-tag">✦ Why I build this</div>
+  <h1>AI doesn't replace<br><em>talent</em>. It amplifies it.</h1>
+  <p class="hero-sub" style="margin-left:auto;margin-right:auto;">
+    It's the pattern I see every day building AI systems for Fortune 500 companies, and it's why I built this for my parents first.
+  </p>
+  <div class="hero-actions">
+    <a href="#see-it" class="btn-primary">See what I've built →</a>
+    <a href="https://github.com/mindyjwu" target="_blank" rel="noopener" class="btn-secondary">Full portfolio →</a>
   </div>
 </section>
 
-
-<!-- ===================== MY PROJECTS (top showcase) ===================== -->
-<section class="tools-section" id="projects">
-  <div class="tools-inner reveal">
-    <p class="tools-eyebrow">What I'm building</p>
-    <div class="tools-cards">
-
-      <!-- Global Explorer -->
-      <div class="tools-card tools-card--explorer">
-        <div class="tools-card__icon">🌍</div>
-        <div class="tools-card__tag">Interactive map · React + MapLibre GL + Vite</div>
-        <div class="tools-card__title">Global Explorer</div>
-        <div class="tools-card__desc">Click any country on a 3D globe and explore its cities, each tagged by what makes it worth visiting.</div>
-        <div class="tools-card__links">
-          <a href="https://global-explorer.vercel.app" target="_blank" rel="noopener" class="tools-card__cta">Visit site →</a>
-          <a href="https://github.com/mindyjwu/global-explorer" target="_blank" rel="noopener" class="tools-card__cta tools-card__cta--secondary">GitHub</a>
-        </div>
-      </div>
-
-      <!-- GenAI -->
-      <div class="tools-card tools-card--creator">
-        <div class="tools-card__icon">🧠</div>
-        <div class="tools-card__tag">Communication style discovery · Next.js + Claude + Supabase</div>
-        <div class="tools-card__title">GenAI</div>
-        <div class="tools-card__desc">Ask anything and get two perspectives — Kyle and Kylie respond in distinct communication styles. Pick what resonates, and discover what your choices say about you.</div>
-        <div class="tools-card__links">
-          <a href="https://gender-ai.vercel.app" target="_blank" rel="noopener" class="tools-card__cta">Visit site →</a>
-          <a href="https://github.com/mindyjwu/gender-ai" target="_blank" rel="noopener" class="tools-card__cta tools-card__cta--secondary">GitHub</a>
-        </div>
-      </div>
-
-      <!-- Stock Advisor -->
-      <div class="tools-card tools-card--reader">
-        <div class="tools-card__icon">📈</div>
-        <div class="tools-card__tag">AI stock dashboard · Python + Streamlit + Claude</div>
-        <div class="tools-card__title">Stock Advisor</div>
-        <div class="tools-card__desc">Grades stocks on fundamentals, technicals, and AI-analyzed news sentiment, then turns cash deposits into diversified buy plans. Educational tool, not financial advice.</div>
-        <div class="tools-card__links">
-          <a href="https://github.com/mindyjwu/stock_advisor" target="_blank" rel="noopener" class="tools-card__cta tools-card__cta--secondary">GitHub</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===================== GUIDE TOOLS (Explorer/Creator/Reader/Signal) ===================== -->
-<section class="tools-section">
-  <div class="tools-inner reveal">
-    <p class="tools-eyebrow">A few themed extras, built into the guide</p>
-    <div class="tools-cards">
-
-      <!-- Explorer -->
-      <a href="explore-art.html" class="tools-card tools-card--explorer">
-        <div class="tools-card__icon">🎨</div>
-        <div class="tools-card__tag">For art lovers &amp; curious explorers</div>
-        <div class="tools-card__title">For Explorer ✦</div>
-        <div class="tools-card__desc">Tell it how you're feeling and it finds real artworks that match your mood — like having a museum guide in your pocket.</div>
-        <div class="tools-card__cta">Explore art →</div>
-      </a>
-
-      <!-- Creator -->
-      <a href="creator.html" class="tools-card tools-card--creator">
-        <div class="tools-card__icon">🎛️</div>
-        <div class="tools-card__tag">For independent musicians &amp; producers</div>
-        <div class="tools-card__title">For Creator ✦</div>
-        <div class="tools-card__desc">A creative sounding board when you're stuck, second-guessing a mix, or just need someone to think out loud with.</div>
-        <div class="tools-card__cta">Start a session →</div>
-      </a>
-
-      <!-- Reader -->
-      <a href="reader.html" class="tools-card tools-card--reader">
-        <div class="tools-card__icon">📚</div>
-        <div class="tools-card__tag">For book lovers &amp; curious readers</div>
-        <div class="tools-card__title">For Reader ✦</div>
-        <div class="tools-card__desc">Tell it how you're feeling — not what genre you want — and it finds the right book for exactly this moment in your life.</div>
-        <div class="tools-card__cta">Find a book →</div>
-      </a>
-
-      <!-- Signal -->
-      <a href="signal.html" class="tools-card tools-card--signal">
-        <div class="tools-card__icon">📡</div>
-        <div class="tools-card__tag">For anyone tracking where AI is headed</div>
-        <div class="tools-card__title">SIGNAL ✦</div>
-        <div class="tools-card__desc">Live AI and tech intelligence across biotech, hardware, media, finance, and a dozen more industries.</div>
-        <div class="tools-card__cta">See the feed →</div>
-      </a>
-
-      <!-- Film -->
-      <a href="film.html" class="tools-card tools-card--film">
-        <div class="tools-card__icon">🎬</div>
-        <div class="tools-card__tag">For anyone who wants the right movie, not just a list</div>
-        <div class="tools-card__title">For Film ✦</div>
-        <div class="tools-card__desc">Tell it how you're feeling — not what genre — and it finds a film for exactly this moment.</div>
-        <div class="tools-card__cta">Find a film →</div>
-      </a>
-
-      <!-- Score -->
-      <a href="score.html" class="tools-card tools-card--score">
-        <div class="tools-card__icon">🎧</div>
-        <div class="tools-card__tag">For scoring a scene, not just making a playlist</div>
-        <div class="tools-card__title">Music for Film ✦</div>
-        <div class="tools-card__desc">Describe a scene or a mood and get real songs and scores that would actually work as the soundtrack.</div>
-        <div class="tools-card__cta">Find the sound →</div>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===================== TRY IT ===================== -->
-<section class="try-section" id="try">
-  <div class="try-inner reveal">
-    <div>
-      <div class="section-label">Try It Yourself</div>
-      <h2 class="section-title">Copy a prompt. Paste it into Claude. See what happens.</h2>
-      <p class="section-sub">You don't need an account to try. Just go to claude.ai, paste one of these, and hit enter.</p>
-      <a href="https://claude.ai" target="_blank" rel="noopener" class="btn-primary" style="display: inline-flex;">Open Claude.ai →</a>
-    </div>
-
-    <div class="prompt-cards">
-      <button type="button" class="prompt-card" data-prompt="Help me write a polite but firm email to my landlord about [issue]. I want to sound professional.">
-        <div class="prompt-icon" aria-hidden="true">✉️</div>
-        <div>
-          <div class="prompt-title">Write a follow-up email</div>
-          <div class="prompt-text">"Help me write a polite but firm email to my landlord about [issue]. I want to sound professional."</div>
-        </div>
-        <div class="prompt-arrow" aria-hidden="true">Copy</div>
-      </button>
-
-      <button type="button" class="prompt-card" data-prompt="I got this letter from [insurance/doctor/bank]. Can you explain what it means in simple English?">
-        <div class="prompt-icon" aria-hidden="true">📄</div>
-        <div>
-          <div class="prompt-title">Decode a confusing letter</div>
-          <div class="prompt-text">"I got this letter from [insurance/doctor/bank]. Can you explain what it means in simple English?"</div>
-        </div>
-        <div class="prompt-arrow" aria-hidden="true">Copy</div>
-      </button>
-
-      <button type="button" class="prompt-card" data-prompt="I have 3 days in [city] with a budget of $[X]. Plan a simple itinerary for me.">
-        <div class="prompt-icon" aria-hidden="true">🗓️</div>
-        <div>
-          <div class="prompt-title">Plan a trip or event</div>
-          <div class="prompt-text">"I have 3 days in [city] with a budget of $[X]. Plan a simple itinerary for me."</div>
-        </div>
-        <div class="prompt-arrow" aria-hidden="true">Copy</div>
-      </button>
-
-      <button type="button" class="prompt-card" data-prompt="I need to talk to [person] about [topic]. Help me figure out what to say without starting a fight.">
-        <div class="prompt-icon" aria-hidden="true">💬</div>
-        <div>
-          <div class="prompt-title">Practice a hard conversation</div>
-          <div class="prompt-text">"I need to talk to [person] about [topic]. Help me figure out what to say without starting a fight."</div>
-        </div>
-        <div class="prompt-arrow" aria-hidden="true">Copy</div>
-      </button>
-
-      <button type="button" class="prompt-card" data-prompt="My kid keeps talking about MCP and AI agents. Can you explain what that actually means in simple terms a parent would get?">
-        <div class="prompt-icon" aria-hidden="true">🤖</div>
-        <div>
-          <div class="prompt-title">Understand AI in plain English</div>
-          <div class="prompt-text">"My kid keeps talking about MCP and AI agents. Can you explain what that actually means in simple terms a parent would get?"</div>
-        </div>
-        <div class="prompt-arrow" aria-hidden="true">Copy</div>
-      </button>
-
-      <button type="button" class="prompt-card" data-prompt="I've been having [symptom] for a few days. Can you help me understand what might be going on and whether I should see a doctor?">
-        <div class="prompt-icon" aria-hidden="true">🩺</div>
-        <div>
-          <div class="prompt-title">Talk through a health concern</div>
-          <div class="prompt-text">"I've been having [symptom] for a few days. Can you help me understand what might be going on and whether I should see a doctor?"</div>
-        </div>
-        <div class="prompt-arrow" aria-hidden="true">Copy</div>
-      </button>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== ASK ME ANYTHING ===================== -->
-<section class="ask-section" id="ask">
-  <div class="ask-inner reveal">
-    <div class="section-label">Ask Me Anything</div>
-    <h2 class="section-title">Curious about something? Just ask.</h2>
-    <p class="section-sub">Powered by Claude — ask me about this site, what I'm building, or what I'm into.</p>
-
-    <div class="guide-chat" id="guide-chat">
-      <div class="guide-chat__messages" id="guide-chat-messages">
-        <div class="guide-msg guide-msg--ai">
-          <div class="guide-msg__bubble">Hi! Ask me anything about this site, the things I'm building, or who I am.</div>
-        </div>
-      </div>
-      <div class="guide-chat__input-row">
-        <input
-          type="text"
-          class="guide-chat__input"
-          id="guide-chat-input"
-          placeholder="Ask me anything…"
-          aria-label="Ask a question" />
-        <button class="guide-chat__send" id="guide-chat-send" aria-label="Send">→</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== ABOUT ===================== -->
-<section class="about-section" id="about">
-  <div class="about-inner reveal">
+<!-- ===================== BIO ===================== -->
+<section class="about-section" id="bio">
+  <div class="about-inner">
     <img src="assets/mindy.jpg" alt="Mindy Wu" class="about-photo" onerror="this.style.display='none';document.getElementById('about-avatar-fallback').style.display='flex';">
     <div class="about-avatar" id="about-avatar-fallback" aria-hidden="true" style="display:none;">M</div>
     <div>
-      <div class="about-label">About</div>
+      <div class="about-label">Who I am</div>
       <h2 class="about-title">Hi, I'm Mindy.</h2>
-      <p class="about-text">By day I build and deploy RAG pipelines and AI systems for Fortune 500 media companies. By night I explain it to my parents — which turned into this.</p>
-      <a href="about.html" class="about-portfolio-link">Why I build this →</a>
-      <a href="https://mindy-portfolio.vercel.app" target="_blank" rel="noopener" class="about-portfolio-link" style="margin-left: 1.5rem;">See my full portfolio →</a>
+      <p class="about-text">By day I build and deploy RAG pipelines and AI systems for Fortune 500 media companies. By night I explain it to my parents, which turned into this. I studied CS &amp; Data Science at NYU, and I've been building small AI tools on the side ever since: this guide, a few themed extras, and a handful of other projects.</p>
+      <a href="https://github.com/mindyjwu" target="_blank" rel="noopener" class="about-portfolio-link">See my full portfolio →</a>
     </div>
   </div>
 </section>
 
-<!-- ===================== OTHER THINGS I'M BUILDING ===================== -->
-<section class="tools-section" id="other-projects">
-  <div class="tools-inner reveal">
-    <p class="tools-eyebrow">Other things I'm building</p>
-    <div class="tools-cards">
+<!-- ===================== THE IDEA (essay) ===================== -->
+<section class="essay-section">
+  <div class="essay-inner reveal">
+    <h2>The idea behind it</h2>
+    <p>I don't think AI replaces talent. I think it amplifies it.</p>
+    <p>I see this every day at work. I build and deploy RAG pipelines and AI systems for Fortune 500 media and entertainment companies, and the pattern holds no matter the team: the people who get the most out of AI aren't the ones who know the most about AI. They're the ones who already had something real, real judgment, real taste, a real point of view, and just needed a faster way to act on it.</p>
+    <p>My parents don't work in tech. They kept asking me, separately, whether AI was going to take their jobs, and I didn't have an answer that fit in a text message. So instead of explaining it, I started showing them: here's how you'd use it for an email you're dreading, for a letter you don't understand, for a conversation you've been putting off. Watching it actually click for them is what convinced me the amplifier idea holds up outside of enterprise software too, not just for consultants and engineers.</p>
 
-      <!-- Placeholder — replace with your next project -->
-      <div class="tools-card" style="opacity: 0.4; cursor: default; border-style: dashed;">
-        <div class="tools-card__icon">🔧</div>
-        <div class="tools-card__tag" style="color: var(--ink-muted);">Coming soon</div>
-        <div class="tools-card__title">Something new</div>
-        <div class="tools-card__desc">This spot is saved for whatever I build next.</div>
+    <div class="essay-aside">
+      <strong>A favorite example of this:</strong> a musician who takes his own voice and layers it live, in real time, into full vocal harmony no single throat could produce alone. The raw talent was always there; the tool just let it fully out.
+      <div class="video-slot">
+        <a href="https://youtu.be/BFul90BFjGc?t=891" target="_blank" rel="noopener">▶ Watch the moment: Jacob Collier, live with orchestra →</a>
       </div>
-
     </div>
+
+    <p>That's the lens I build through, at work and here. Every tool on this site (Explorer, Creator, Reader, Signal, the guide itself) starts from the same question: what's someone already capable of, that a good AI tool could help them actually do? And the projects I build outside the guide (Global Explorer, GenAI, Stock Advisor) are the same instinct pointed at problems I'm just personally curious about.</p>
   </div>
 </section>
 
-<!-- ===================== FEEDBACK ===================== -->
-<section class="feedback-section" id="feedback">
-  <div class="feedback-box reveal">
-    <div class="feedback-icon" aria-hidden="true">💬</div>
-    <h2>Got a question or idea?</h2>
-    <p>Drop it here — no email needed. What would you want to see next, or what are you still confused about?</p>
-    <form class="feedback-form" id="feedback-form" novalidate>
-      <textarea
-        class="feedback-input"
-        id="feedback-input"
-        placeholder="I'm still confused about... / I'd love to learn about..."
-        rows="4"
-        aria-label="Your question or feedback"></textarea>
-      <button type="submit" class="feedback-submit" id="feedback-submit">Send it →</button>
-    </form>
-    <p class="feedback-thanks" id="feedback-thanks" aria-live="polite"></p>
+<!-- ===================== SEE IT IN ACTION ===================== -->
+<section class="see-it-section" id="see-it">
+  <div class="see-it-inner reveal">
+    <div class="section-label">See it in action</div>
+    <h2 class="section-title">The idea, in practice</h2>
+    <div class="see-it-links">
+      <a href="https://global-explorer.vercel.app" target="_blank" rel="noopener">Global Explorer →</a>
+      <a href="https://gender-ai.vercel.app" target="_blank" rel="noopener">GenAI →</a>
+      <a href="https://github.com/mindyjwu/stock_advisor" target="_blank" rel="noopener">Stock Advisor →</a>
+      <a href="explore-art.html">For Explorer ✦</a>
+      <a href="creator.html">For Creator ✦</a>
+      <a href="reader.html">For Reader ✦</a>
+      <a href="signal.html">SIGNAL ✦</a>
+      <a href="https://github.com/mindyjwu" target="_blank" rel="noopener">All my projects →</a>
+    </div>
   </div>
 </section>
-
-<!-- ===================== FLOAT BUTTON ===================== -->
-<button class="claude-float" id="claude-float-btn" aria-label="Ask me anything" aria-expanded="false">
-  <span class="claude-float-icon" aria-hidden="true">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-  </span>
-  <span class="claude-float-label">Ask me anything</span>
-</button>
-
-<!-- ===================== FLOATING CHAT PANEL ===================== -->
-<div class="float-panel" id="float-panel" aria-hidden="true">
-  <div class="float-panel__header">
-    <div class="float-panel__title">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      Ask Me Anything
-    </div>
-    <button class="float-panel__close" id="float-panel-close" aria-label="Close chat">✕</button>
-  </div>
-  <div class="guide-chat__messages" id="float-chat-messages">
-    <div class="guide-msg guide-msg--ai">
-      <div class="guide-msg__bubble">Hi! Ask me anything about this site, the things I'm building, or who I am.</div>
-    </div>
-  </div>
-  <div class="guide-chat__input-row">
-    <input
-      type="text"
-      class="guide-chat__input"
-      id="float-chat-input"
-      placeholder="Ask a question…"
-      aria-label="Ask a question" />
-    <button class="guide-chat__send" id="float-chat-send" aria-label="Send">→</button>
-  </div>
-</div>
 
 <!-- ===================== FOOTER ===================== -->
 <footer>
