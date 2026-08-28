@@ -1,7 +1,7 @@
 // api/signal.js
 // Vercel serverless function — keeps your Anthropic API key server-side
 
-const Anthropic = require('@anthropic-ai/sdk');
+import Anthropic from '@anthropic-ai/sdk';
 
 const TODAY = new Date().toISOString().split('T')[0];
 
@@ -33,7 +33,7 @@ function extractJSON(txt) {
   }
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   // Only allow GET
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -70,4 +70,4 @@ module.exports = async (req, res) => {
     console.error('[/api/signal]', err);
     return res.status(500).json({ error: String(err) });
   }
-};
+}
