@@ -7,7 +7,7 @@
 //   /api/signal?industry=legal   → 5 stories inside one industry (on-demand)
 //   /api/signal?format=brief     → 3-story compact digest for the Morning Brief
 
-const Anthropic = require('@anthropic-ai/sdk');
+import Anthropic from '@anthropic-ai/sdk';
 
 const INDUSTRIES = [
   'biotech', 'media', 'legal', 'hardware', 'software', 'agriculture',
@@ -148,7 +148,7 @@ function corsOrigin(origin) {
   return null;
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   const origin = corsOrigin(req.headers.origin);
   if (origin) {
     res.setHeader('Access-Control-Allow-Origin', origin);
@@ -237,4 +237,4 @@ module.exports = async (req, res) => {
     res.setHeader('Cache-Control', 'no-store');
     return res.status(500).json({ error: String(err) });
   }
-};
+}

@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Real-time AI and innovation intelligence across 16 industries — 15+ stories daily, each with an estimated read time.">
-  <meta property="og:title" content="SIGNAL — AI Innovation Feed · Mindy's AI Guide">
+  <meta property="og:title" content="SIGNAL — AI Innovation Feed · Mindy's Portfolio">
   <meta property="og:description" content="Live AI and tech intelligence across Biotech, Hardware, Media, Finance, and 12 more industries.">
-  <title>SIGNAL — AI Innovation Feed · Mindy's AI Guide</title>
+  <title>SIGNAL — AI Innovation Feed · Mindy's Portfolio</title>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{
@@ -159,7 +159,7 @@
 
 <!-- ── Site nav ───────────────────────────────── -->
 <nav class="site-nav">
-  <a href="/index.html" class="site-nav-brand">Mindy's AI Guide</a>
+  <a href="/index.html" class="site-nav-brand">Mindy's Portfolio</a>
   <div class="site-nav-links">
     <a href="/index.html">← Back to Guide</a>
     <a href="https://global-explorer.vercel.app" target="_blank" rel="noopener">Global Explorer ✦</a>
@@ -618,7 +618,7 @@ function absorb(stories,meta){
 // Three parallel sweeps, five industries each — far more coverage than one
 // request can find inside a single function timeout.
 async function fetchAll(){
-  setSt('loading','#d97706','Sweeping 16 industries for today\'s stories (~30s)…');
+  setSt('loading','#d97706','Sweeping 16 industries for today\'s stories (up to 2 min on the first load of the day)…');
   sweepsDone=0;
   await Promise.all([1,2,3].map(async n=>{
     try{

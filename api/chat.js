@@ -2,58 +2,15 @@ import Anthropic from '@anthropic-ai/sdk';
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || process.env.mindy_secret_key });
 
-// Videos available on the site
-const VIDEOS = [
-  {
-    id: 'email',
-    title: 'Let Claude write that awkward email for you',
-    desc: 'Landlords, doctors, HR — watch me type one line and get a full professional email in seconds.',
-  },
-  {
-    id: 'search',
-    title: 'Ask Claude instead of Googling — see the difference',
-    desc: 'A side-by-side comparison. One gets you 40 tabs. The other just answers your question.',
-  },
-  {
-    id: 'documents',
-    title: 'Paste any confusing document — Claude explains it',
-    desc: 'Insurance forms, legal letters, medical paperwork. Paste it in, ask "what does this mean?"',
-  },
-  {
-    id: 'planning',
-    title: 'Plan anything in 2 minutes — trips, meals, budgets',
-    desc: 'Tell Claude what you have and what you need. It handles the thinking, you handle the doing.',
-  },
-];
+const SYSTEM = `You are the assistant on Mindy's personal site — a place where she explores her passions and shares the mini projects she's been building, not a course or a company.
 
-// Tool Claude can call to recommend a video — this is the MCP concept in action
-const tools = [{
-  name: 'recommend_video',
-  description: "Recommend a relevant video from Mindy's site when the user's question closely matches a video topic. Use once per turn at most.",
-  input_schema: {
-    type: 'object',
-    properties: {
-      video_id: {
-        type: 'string',
-        enum: ['email', 'search', 'documents', 'planning'],
-        description: 'The video that best matches the user\'s need',
-      },
-    },
-    required: ['video_id'],
-  },
-}];
+Be warm, brief, and conversational. Keep replies to 2-3 sentences. No jargon, no resume-speak, no corporate tone.
 
-const SYSTEM = `You are the assistant for Mindy's AI Guide — a site that teaches non-technical people how to use Claude AI for everyday tasks.
+If asked who Mindy is: she has a background in media and entertainment, and she's genuinely passionate about music, movies, and storytelling. This site is where those interests meet the things she builds on the side — a few themed AI tools (for exploring art, music, books, and AI news) and some personal projects (Global Explorer, GenAI, Stock Advisor). Keep it personal and warm, never like a resume or LinkedIn bio.
 
-Be warm, brief, and encouraging. Keep replies to 2–3 sentences. Speak plainly — no jargon.
+If asked what this site is: it's Mindy's personal corner of the internet, part portfolio, part playground for her interests. Point people toward "What I'm building" or the themed tools if it's a natural fit.
 
-Videos available on the site:
-- email: Writing awkward emails (landlords, HR, doctors, follow-ups)
-- search: Using Claude instead of Googling for answers
-- documents: Understanding confusing paperwork (insurance, legal, medical)
-- planning: Planning trips, meals, events, or budgets
-
-Use the recommend_video tool when the user's question is a strong match for one of these topics.`;
+If you don't know something specific about Mindy, say so honestly rather than guessing or making something up.`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
@@ -66,44 +23,13 @@ export default async function handler(req, res) {
   // Keep last 8 turns to control cost
   const recent = messages.slice(-8);
 
-  let resp = await client.messages.create({
+  const resp = await client.messages.create({
     model: 'claude-opus-4-6',
     max_tokens: 400,
     system: SYSTEM,
-    tools,
     messages: recent,
   });
 
-  let video = null;
-
-  // Handle tool use: Claude wants to recommend a video
-  if (resp.stop_reason === 'tool_use') {
-    const tu = resp.content.find(b => b.type === 'tool_use');
-    if (tu) {
-      video = VIDEOS.find(v => v.id === tu.input.video_id) ?? null;
-
-      // Send tool result back so Claude can complete its response
-      resp = await client.messages.create({
-        model: 'claude-opus-4-6',
-        max_tokens: 400,
-        system: SYSTEM,
-        tools,
-        messages: [
-          ...recent,
-          { role: 'assistant', content: resp.content },
-          {
-            role: 'user',
-            content: [{
-              type: 'tool_result',
-              tool_use_id: tu.id,
-              content: `Video "${video?.title}" has been surfaced to the user.`,
-            }],
-          },
-        ],
-      });
-    }
-  }
-
   const reply = resp.content.find(b => b.type === 'text')?.text ?? '';
-  res.status(200).json({ reply, video });
+  res.status(200).json({ reply });
 }

@@ -20,17 +20,38 @@
   --ink-soft: #3E5A6E;
   --ink-muted: #7B96A3;
   --border: rgba(22, 35, 46, 0.1);
+  --silver: #B7C4CC;
+  --silver-light: #EDF2F4;
+  --silver-dark: #7C8E99;
+  --silver-shine: linear-gradient(135deg, #CBD8DE 0%, #F2F6F8 45%, #AFC0C9 100%);
 }
 
 html { scroll-behavior: smooth; }
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background: var(--cream);
+  background: linear-gradient(
+    120deg,
+    #D9E5EC 0%,
+    #F3F8FA 18%,
+    #C9DCE6 36%,
+    #EEF5F8 54%,
+    #D2E2EA 72%,
+    #F6FAFB 90%,
+    #D9E5EC 100%
+  );
+  background-size: 320% 320%;
+  animation: waterFlow 26s ease-in-out infinite;
   color: var(--ink);
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+@keyframes waterFlow {
+  0%   { background-position: 0% 45%; }
+  50%  { background-position: 100% 56%; }
+  100% { background-position: 0% 45%; }
 }
 
 /* === NAV === */
@@ -72,7 +93,7 @@ nav {
   transition: color 0.2s;
 }
 
-.nav-links a:hover { color: var(--clay); }
+.nav-links a:hover { color: var(--silver-dark); }
 
 .nav-links a.nav-active { color: var(--clay); }
 
@@ -173,7 +194,11 @@ nav {
   transition: background 0.2s, transform 0.1s;
 }
 
-.btn-primary:hover { background: var(--clay-dark); transform: translateY(-1px); }
+.btn-primary:hover {
+  background: var(--silver-shine);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
 
 .btn-secondary {
   color: var(--ink-soft);
@@ -185,7 +210,7 @@ nav {
   transition: color 0.2s;
 }
 
-.btn-secondary:hover { color: var(--clay); }
+.btn-secondary:hover { color: var(--silver-dark); }
 
 /* === CHAT MOCKUP === */
 .hero-visual { position: relative; }
@@ -349,7 +374,6 @@ nav {
 
 /* === TRY IT SECTION === */
 .try-section {
-  background: var(--warm-white);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -385,7 +409,7 @@ nav {
   appearance: none;
 }
 
-.prompt-card:hover { border-color: var(--clay); transform: translateX(4px); }
+.prompt-card:hover { border-color: var(--silver-dark); transform: translateX(4px); }
 
 .prompt-icon  { font-size: 22px; flex-shrink: 0; margin-top: 2px; width: 32px; text-align: center; }
 .prompt-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
@@ -407,7 +431,7 @@ nav {
   white-space: nowrap;
 }
 
-.prompt-card:hover .prompt-arrow { background: var(--clay); color: #fff; border-color: var(--clay); }
+.prompt-card:hover .prompt-arrow { background: var(--silver-shine); color: var(--ink); border-color: var(--silver-dark); }
 
 .prompt-card.is-copied { border-color: var(--sage); background: var(--sage-light); }
 .prompt-card.is-copied .prompt-arrow {
@@ -490,7 +514,7 @@ nav {
   opacity: 0.9;
 }
 
-.about-portfolio-link:hover { opacity: 1; }
+.about-portfolio-link:hover { opacity: 1; color: var(--silver-light); }
 
 .about-creds { display: flex; flex-direction: column; gap: 8px; margin-top: 1.5rem; }
 
@@ -500,7 +524,6 @@ nav {
 
 /* === SPECIAL TOOLS SECTION === */
 .tools-section {
-  background: var(--cream);
   padding: 80px 2rem;
 }
 
@@ -641,6 +664,28 @@ nav {
   box-shadow: 0 8px 32px rgba(148, 98, 0, 0.15);
 }
 
+/* Film — cinema crimson */
+.tools-card--film {
+  border-top: 3px solid #B8283F;
+}
+.tools-card--film .tools-card__tag  { color: #B8283F; }
+.tools-card--film .tools-card__cta  { color: #B8283F; }
+.tools-card--film:hover {
+  background: #FCEEF0;
+  box-shadow: 0 8px 32px rgba(184, 40, 63, 0.15);
+}
+
+/* Score — deep teal */
+.tools-card--score {
+  border-top: 3px solid #0F6E6E;
+}
+.tools-card--score .tools-card__tag  { color: #0F6E6E; }
+.tools-card--score .tools-card__cta  { color: #0F6E6E; }
+.tools-card--score:hover {
+  background: #E7F6F5;
+  box-shadow: 0 8px 32px rgba(15, 110, 110, 0.15);
+}
+
 @media (max-width: 768px) {
   .tools-cards { grid-template-columns: 1fr; }
 }
@@ -702,7 +747,7 @@ nav {
   transition: background 0.2s;
 }
 
-.feedback-submit:hover    { background: var(--clay-dark); }
+.feedback-submit:hover    { background: var(--silver-shine); color: var(--ink); }
 .feedback-submit:disabled { background: var(--sage); cursor: default; }
 
 .feedback-thanks { font-size: 14px; color: var(--sage); margin-top: 0.5rem; min-height: 1.4em; }
@@ -730,10 +775,13 @@ nav {
 }
 
 .claude-float:hover {
-  background: #333;
+  background: var(--silver-shine);
+  color: var(--ink);
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(22, 35, 46, 0.3);
 }
+
+.claude-float:hover .claude-float-icon svg { stroke: var(--ink); }
 
 .claude-float-icon { display: flex; align-items: center; }
 
@@ -746,7 +794,7 @@ footer {
 
 footer p    { font-size: 13px; color: var(--ink-muted); }
 footer a    { color: var(--clay); text-decoration: none; }
-footer a:hover { text-decoration: underline; }
+footer a:hover { color: var(--silver-dark); text-decoration: underline; }
 
 /* === ANIMATIONS === */
 @keyframes fadeUp {
@@ -793,7 +841,6 @@ textarea:focus-visible {
 
 /* === ASK SECTION === */
 .ask-section {
-  background: var(--warm-white);
   padding: 80px 2rem;
 }
 
@@ -860,43 +907,6 @@ textarea:focus-visible {
   font-style: italic;
 }
 
-/* Video recommendation card inside chat */
-.guide-video-rec {
-  margin-top: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: var(--butter-light);
-  border: 1px solid rgba(185, 205, 217, 0.4);
-  border-radius: 12px;
-  font-size: 0.8rem;
-}
-
-.guide-video-rec__label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--ink-soft);
-  margin-bottom: 0.3rem;
-}
-
-.guide-video-rec__title {
-  font-weight: 500;
-  color: var(--ink);
-  margin-bottom: 0.4rem;
-  line-height: 1.4;
-}
-
-.guide-video-rec__link {
-  color: var(--clay);
-  font-weight: 500;
-  text-decoration: none;
-  font-size: 0.8rem;
-}
-
-.guide-video-rec__link:hover {
-  text-decoration: underline;
-}
-
 .guide-chat__input-row {
   display: flex;
   align-items: center;
@@ -937,7 +947,8 @@ textarea:focus-visible {
 }
 
 .guide-chat__send:hover {
-  background: var(--clay-dark);
+  background: var(--silver-shine);
+  color: var(--ink);
 }
 
 .guide-chat__send:disabled {

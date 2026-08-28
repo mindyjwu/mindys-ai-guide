@@ -1,5 +1,7 @@
 {
   "functions": {
-    "api/signal.js": { "maxDuration": 60 }
+    "api/signal.js": {
+      "maxDuration": 300
+    }
   }
 }

@@ -1,4 +1,4 @@
-# Mindy's AI Guide
+# Mindy's Portfolio
 
 **[mindys-ai-guide.vercel.app](https://mindys-ai-guide.vercel.app)** · **[More of my work](https://mindy-portfolio.vercel.app)**
 
